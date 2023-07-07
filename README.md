@@ -6,7 +6,7 @@ Based on this device:
 
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/04c1c34b-6d6d-4141-acb8-f41646d75c32)
 
-Unix implementation can be done with [this repo](https://github.com/kobolt/usb-can).
+Unix implementation can be done with [usb-can](https://github.com/kobolt/usb-can).
 
 ### Hardware connection side 
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/e02b6207-d4ea-4d4d-a50a-e3e462aa1385)
