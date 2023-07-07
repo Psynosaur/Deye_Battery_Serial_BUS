@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CanTree>
+    <HeaderTreeNode name="">
+        <HeaderTreeNode name="BMS Battery Array">
+            <MessageTreeNode name="ID 305" id="305" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="Charge V, Current Limit A, DChg Limit A, Battery Type" id="351" IDE="false" RTR="false" format="s16 0.1:0.1V,s16 0.1:0.1A,s16 0.1:0.1A,s16 0.1:0.1V"/>
+            <MessageTreeNode name="SOC, SOH, ?, ?" id="355" IDE="false" RTR="false" format="s16:%,s16:%,s16,s16"/>
+            <MessageTreeNode name="Votlage, Current, Temp, ? " id="356" IDE="false" RTR="false" format="s16 0.01:0.1V,s16 0.1:0.1A,s16 0.1:0.0°C,s16"/>
+            <MessageTreeNode name="ID 359" id="359" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="ID 35C" id="35C" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="Model number : DY001" id="35E" IDE="false" RTR="false" format="DY001Ð"/>
+            <MessageTreeNode name="Cell High, Low, Temp H, L" id="361" IDE="false" RTR="false" format="s16 0.001:0.03V,s16 0.001:0.03V,s16 0.1:0.1°C,s16 0.1:0.1°C"/>
+            <MessageTreeNode name="Capacity, Balance Votlage, ?, ?" id="363" IDE="false" RTR="false" format="s16 0.1:0.1A,s16 0.1:0.1V,s16,s16"/>
+            <MessageTreeNode name="514 full &amp; 2 when charging/discharging, ? , batt cnt, ?" id="364" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="Limits (Current, Max)" id="371" IDE="false" RTR="false" format="s16 0.1:0.0A,s16 0.1:0.0A,s16,s16"/>
+        </HeaderTreeNode>
+        <HeaderTreeNode name="Battery #1">
+            <MessageTreeNode name="Info ? 00 00 00 00 00 00 00 31 charging" id="110" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="Voltage, Current, SOC, SOH" id="150" IDE="false" RTR="false" format="s16 0.1:0.1V,s16 0.1:0.1A,s16 0.1:0.1%,s16 0.1:0.1%"/>
+            <MessageTreeNode name="Cell Voltage (High, Low), Temp (1, 2)" id="200" IDE="false" RTR="false" format="s16 0.001:0.3V,s16 0.001:0.03V,s16 0.1:0.1°C,s16 0.1:0.1°C"/>
+            <MessageTreeNode name="MOS Temp, ? , Limits (Current, Max)" id="250" IDE="false" RTR="false" format="s16 0.1:0.1°C,s16,s16 1:0.0A,s16 1:0.0A"/>
+            <MessageTreeNode name="Power IN and Out" id="550" IDE="false" RTR="false" format="s32 0.001:0.3kW,s32 0.001:0.3kW"/>
+            <MessageTreeNode name="Serial #1" id="600" IDE="false" RTR="false" format="00501000"/>
+            <MessageTreeNode name="Serial #2" id="650" IDE="false" RTR="false" format="B3132173"/>
+            <MessageTreeNode name="Boot version" id="500" IDE="false" RTR="false" format="ªV7.06"/>
+            <MessageTreeNode name="ID 700" id="700" IDE="false" RTR="false" format=""/>
+            <MessageTreeNode name="ID 750" id="750" IDE="false" RTR="false" format=""/>
+            <HeaderTreeNode name="Status: Charging, Discharging, Fully charged">
+                <MessageTreeNode name="1;2;0, CYCLE , ?, 15;9;3-18" id="400" IDE="false" RTR="false" format="s8,s8,s8,s8,s8,s8,s8,s8"/>
+            </HeaderTreeNode>
+        </HeaderTreeNode>
+        <HeaderTreeNode name="Battery #2">
+            <MessageTreeNode name="Info ? 00 00 00 00 00 00 00 31 charging" id="111" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
+            <MessageTreeNode name="Voltage, Current, SOC, SOH" id="151" IDE="false" RTR="false" format="s16 0.1:0.1V,s16 0.1:0.1A,s16 0.1:0.1%,s16 0.1:0.1%"/>
+            <MessageTreeNode name="Cell Voltage (High, Low), Temp (1, 2)" id="201" IDE="false" RTR="false" format="s16 0.001:0.3V,s16 0.001:0.03V,s16 0.1:0.1°C,s16 0.1:0.1°C"/>
+            <MessageTreeNode name="MOS Temp, ? , Limits (Current, Max)" id="251" IDE="false" RTR="false" format="s16 0.1:0.1°C,s16,s16 1:0.0A,s16 1:0.0A"/>
+            <MessageTreeNode name="Power IN and Out" id="551" IDE="false" RTR="false" format="s32 0.001:0.3kW,s32 0.001:0.3kW"/>
+            <MessageTreeNode name="Serial #1" id="601" IDE="false" RTR="false" format="00501000"/>
+            <MessageTreeNode name="Serial #2" id="651" IDE="false" RTR="false" format="B3132164"/>
+            <MessageTreeNode name="Boot version" id="501" IDE="false" RTR="false" format="ªV7.06"/>
+            <MessageTreeNode name="ID 701" id="701" IDE="false" RTR="false" format=""/>
+            <MessageTreeNode name="ID 751" id="751" IDE="false" RTR="false" format=""/>
+            <HeaderTreeNode name="Status: Charging, Discharging, Fully charged">
+                <MessageTreeNode name="1;2;0, CYCLE , ?, 15;9;3-18" id="401" IDE="false" RTR="false" format="s8,s8,s8,s8,s8,s8,s8,s8"/>
+            </HeaderTreeNode>
+        </HeaderTreeNode>
+    </HeaderTreeNode>
+</CanTree>
