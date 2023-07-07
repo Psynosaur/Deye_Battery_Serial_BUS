@@ -15,6 +15,28 @@ Based on this device with [this repo](https://github.com/kobolt/usb-can) as the 
 
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/fcef5139-bc05-49d1-b6c4-5e910b7498f6)
 
+## Format strings
+You can type format strings into the field "Format String" to decode the data of the CAN message.
+
+The format string consists of up to 8 fields seperated by a comma (",") that have the following format:
+
+TYPE [MULTIPLIER][:[TEXT][[0].NUM_DIGITS][TEXT]]
+
+#### Type specifiers
+
+|specifier|description|
+|--|--|
+|u8 or U8|unsigned 8 bits|
+|u16|unsigned 16 bits little endian|
+|u32|unsigned 32 bits little endian|
+|s8 or S8|signed 8 bits|
+|s16|signed 16 bits little endian|
+|s32|signed 32 bits little endian|
+|U16|unsigned 16 bits big endian|
+|U32|unsigned 32 bits big endian|
+|S16|signed 16 bits big endian|
+|S32|signed 32 bits big endian|
+|f|floating point 32 bits little endian (IEE754 single precision)|
 
 ## TODO 
   - Make a grafana interface for this
