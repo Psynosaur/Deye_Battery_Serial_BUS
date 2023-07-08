@@ -15,17 +15,18 @@ public class SerialDataBackgroundService : BackgroundService
     private readonly ILogger<SerialDataBackgroundService> _logger;
     private readonly SerialPort _serialPort;
     private readonly Dictionary<string, FrameType> _frames;
+    private readonly JsonObject _document;
+    private readonly ApplicationInstance _application;
 
-    public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger)
+    public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger, ApplicationInstance application)
     {
         _logger = logger;
+        _application = application;
+        _document = new JsonObject();
         _serialPort = new SerialPort(true ? "/dev/ttyUSB0" : "COM8", 2000000);
         _frames = new Dictionary<string, FrameType>
         {
-            // Define your frame types here
-            { "361", new FrameType305() },
-            { "351", new FrameType351() },
-            // Add more frame types as needed
+            {"000", new FrameType("000", new JsonObject())}
         };
     }
 
@@ -33,13 +34,14 @@ public class SerialDataBackgroundService : BackgroundService
     {
         try
         {
+            _application.Application["json"] = _document;
             _serialPort.Open();
             _serialPort.DataReceived += SerialPort_DataReceived;
 
             while (!stoppingToken.IsCancellationRequested)
             {
                 // Process serial data continuously
-                await Task.Delay(500, stoppingToken); // Adjust the delay as needed
+                await Task.Delay(100, stoppingToken); // Adjust the delay as needed
             }
         }
         catch (Exception ex)
@@ -60,135 +62,89 @@ public class SerialDataBackgroundService : BackgroundService
         int bytes = sp.BytesToRead;
         byte[] buffer = new byte[bytes];
         sp.Read(buffer, 0, bytes);
-        if (bytes != 20 && !(buffer[5] == 0x56 && buffer[6] == 0x03)) return;
-        List<byte> dataBytes = new List<byte>(bytes);
+        if (bytes is not 20) return;
+        List<byte> litteEndianBytes = new List<byte>(bytes);
         foreach (var b in buffer)
         {
             var swp = BinaryPrimitives.ReverseEndianness(b);
-            dataBytes.Add(swp);
+            litteEndianBytes.Add(swp);
         }
-
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            dataBytes.AddRange(buffer[10..17]);
-        }
-        // Array.Reverse(buffer);
-        var volts = BitConverter.ToInt16(new[] { dataBytes[1], dataBytes[0] });
-        var current = BitConverter.ToInt16(new[] { dataBytes[3], dataBytes[2] });
-        var temp = BitConverter.ToInt16(new[] { dataBytes[5], dataBytes[4] });
-        // var receivedData = BitConverter.ToString(buffer); // Read the received data from the serial port
-        var receivedData = $"Battery=> Voltage: {volts/10}V, Current: {current/10}A, Temp: {temp/10}°C";
-
         try
         {
-            ProcessReceivedData(receivedData);
+            ProcessReceivedData(litteEndianBytes.ToArray());
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing received data.");
         }
     }
-    public static int SwapEndianness(int value)
+    private void ProcessReceivedData(byte[] receivedData)
     {
-        var b1 = (value >> 0) & 0xff;
-        var b2 = (value >> 8) & 0xff;
-        var b3 = (value >> 16) & 0xff;
-        var b4 = (value >> 24) & 0xff;
-
-        return b1 << 24 | b2 << 16 | b3 << 8 | b4 << 0;
-    }
-    private void ProcessReceivedData(string receivedData)
-    {
-        _logger.LogInformation(receivedData);
         // Parse the received data and update the corresponding frame values
-        string[] dataParts = receivedData.Split('-'); // Adjust the delimiter as needed
-
-        // var document = new JsonObject();
-        //
-        // foreach (string dataPart in dataParts)
-        // {
-        //     string[] frameData = dataPart.Split(',');
-        //
-        //     if (frameData.Length >= 2 && _frames.ContainsKey(frameData[0]))
-        //     {
-        //         string frameId = frameData[0];
-        //         FrameType frame = _frames[frameId];
-        //         frame.UpdateValues(frameData.Skip(1).ToArray());
-        //     }
-        // }
-        //
-        // foreach (var frame in _frames.Values)
-        // {
-        //     var frameJson = frame.ToJson();
-        //     if (frameJson.Count > 0)
-        //     {
-        //         if (!document.ContainsKey(frame.FrameId))
-        //         {
-        //             document.Add(frame.FrameId, frameJson);
-        //         }
-        //         else
-        //         {
-        //             var existingFrameJson = document[frame.FrameId] as JsonObject;
-        //             if (existingFrameJson != null)
-        //             {
-        //                 foreach (var kvp in frameJson)
-        //                 {
-        //                     existingFrameJson[kvp.Key] = kvp.Value;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        //
-        // var jsonString = document.ToString();
-        // _logger.LogInformation("Current frame values:\n" + jsonString);
-    }
-}
-public abstract class FrameType
-{
-    public string FrameId { get; protected set; }
-    protected JsonObject Data { get; set; }
-
-    public FrameType(string frameId)
-    {
-        FrameId = frameId;
-        Data = new JsonObject();
-    }
-
-    public void UpdateValues(string[] values)
-    {
-        // Update the values for this frame
-        if (values.Length > 0)
+        /*
+         *  ** ** ** ** ** ID ID ** ** DS DB DB DB DB DB DB DB DB ** ??
+         *  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19
+         *  -----------------------------------------------------------
+         *  AA-55-01-01-01-56-03-00-00-08-96-14-8B-00-82-00-00-00-00-1B 
+        */
+        byte[] data = new byte[8];
+        Array.Copy(receivedData, 10, data , 0, 8);
+        
+        var id = $"Frame_{BitConverter.ToString(new[] { receivedData[6], receivedData[5] }).Replace("-", string.Empty)}";;
+        var frameStringData =
+            $"{BitConverter.ToInt16(new[] { data[0], data[1] })}, {BitConverter.ToInt16(new[] { data[2], data[3] })}, {BitConverter.ToInt16(new[] { data[4], data[5] })}, {BitConverter.ToInt16(new[] { data[6], data[7] })}";
+        // Update values of existing frame in collection
+        if (_frames.ContainsKey(id))
         {
-            Data = new JsonObject(); // Clear the existing data
-
-            for (int i = 0; i < values.Length; i++)
+            string frameId = id;
+            var jsonObj = new JsonObject();
+            FrameType frame = _frames[frameId];
+            jsonObj.Add("data", frameStringData);
+            frame.Data = jsonObj;
+        }
+       
+        foreach (var frame in _frames.Values)
+        {
+            var frameJson = frame.ToJson();
+            if (frameJson.Count > 0)
             {
-                Data["Field" + (i + 1)] = values[i];
+                if (!_document.ContainsKey(frame.FrameId))
+                {
+                    _document.Add(frame.FrameId, frameJson);
+                    return;
+                }
+
+                if (_document.ContainsKey(frame.FrameId))
+                {
+                    _document.Remove(frame.FrameId);
+                    _document.Add(frame.FrameId, frameJson);
+                }
+                
             }
         }
+        // Add frame if not in frame collection already
+        if (!_frames.ContainsKey(id))
+        {
+            var jsonObj = new JsonObject();
+            jsonObj.Add("data", frameStringData);
+            _frames.Add(id, new FrameType(id, jsonObj));
+        }
+        _application.Application["json"] = _document;
     }
+}
+public class FrameType
+{
+    public string FrameId { get; protected set; }
+    public JsonObject Data { get; set; }
 
+    public FrameType(string frameId, JsonObject data)
+    {
+        FrameId = frameId;
+        Data = data;
+    }
+    
     public JsonObject ToJson()
     {
         return Data.AsObject();
     }
 }
-
-public class FrameType305 : FrameType
-{
-    public FrameType305() : base("361")
-    {
-        // Add any additional properties specific to FrameType305 if needed
-    }
-}
-
-public class FrameType351 : FrameType
-{
-    public FrameType351() : base("351")
-    {
-        // Add any additional properties specific to FrameType351 if needed
-    }
-}
-
-// Add more frame type classes as needed

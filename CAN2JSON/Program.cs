@@ -1,7 +1,10 @@
+using System.Collections.Concurrent;
+using System.Text.Json.Nodes;
 using CAN2JSON;
 
-var builder = WebApplication.CreateBuilder(args);
 
+
+var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -9,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHostedService<SerialDataBackgroundService>();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<ApplicationInstance>();
 
 var app = builder.Build();
 
@@ -26,3 +30,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public class ApplicationInstance {
+
+    public ConcurrentDictionary<string, object> Application { get; } = new ConcurrentDictionary<string, object>();
+}

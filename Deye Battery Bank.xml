@@ -3,13 +3,13 @@
     <HeaderTreeNode name="">
         <HeaderTreeNode name="BMS Battery Array">
             <MessageTreeNode name="Charge V, Current Limit A, DChg Limit A, Battery Type" id="351" IDE="false" RTR="false" format="s16 0.1:0.1V,s16 0.1:0.1A,s16 0.1:0.1A,s16 0.1:0.1V"/>
+            <MessageTreeNode name="Limits (Current, Max)" id="371" IDE="false" RTR="false" format="s16 0.1:0.0A,s16 0.1:0.0A,s16,s16"/>
             <MessageTreeNode name="SOC, SOH, ?, ?" id="355" IDE="false" RTR="false" format="s16:%,s16:%,s16,s16"/>
             <MessageTreeNode name="Votlage, Current, Temp, ? " id="356" IDE="false" RTR="false" format="s16 0.01:0.1V,s16 0.1:0.1A,s16 0.1:0.0°C,s16"/>
-            <MessageTreeNode name="Model number : DY001" id="35E" IDE="false" RTR="false" format="DY001Ð"/>
             <MessageTreeNode name="Cell High, Low, Temp H, L" id="361" IDE="false" RTR="false" format="s16 0.001:0.03V,s16 0.001:0.03V,s16 0.1:0.1°C,s16 0.1:0.1°C"/>
+            <MessageTreeNode name="Model number : DY001" id="35E" IDE="false" RTR="false" format="DY001Ð"/>
             <MessageTreeNode name="Capacity, Full Charged Resting Voltage, ?, ?" id="363" IDE="false" RTR="false" format="s16 0.1:0.1A,s16 0.1:0.1V,s16,s16"/>
             <MessageTreeNode name="Status and Battery count" id="364" IDE="false" RTR="false" format="s8,s8,s8,s8,s8 1:0.0 Batteries in Array,s8,s8,s8"/>
-            <MessageTreeNode name="Limits (Current, Max)" id="371" IDE="false" RTR="false" format="s16 0.1:0.0A,s16 0.1:0.0A,s16,s16"/>
             <HeaderTreeNode name="CAN Network Devices">
                 <MessageTreeNode name="Inverter Address " id="305" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
                 <MessageTreeNode name="Battery #1 CAN Status " id="359" IDE="false" RTR="false" format="s16,s16,s16,s16"/>
