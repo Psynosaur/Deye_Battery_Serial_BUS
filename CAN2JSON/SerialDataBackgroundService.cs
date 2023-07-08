@@ -18,7 +18,7 @@ public class SerialDataBackgroundService : BackgroundService
     public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger)
     {
         _logger = logger;
-        _serialPort = new SerialPort(RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "/dev/ttyUSB0" : "COM8", 2000000);
+        _serialPort = new SerialPort(true ? "/dev/ttyUSB0" : "COM8", 2000000);
         _frames = new Dictionary<string, FrameType>
         {
             // Define your frame types here
@@ -59,7 +59,7 @@ public class SerialDataBackgroundService : BackgroundService
         int bytes = sp.BytesToRead;
         byte[] buffer = new byte[bytes];
         sp.Read(buffer, 0, bytes);
-        if (bytes != 20) return;
+        if (bytes != 20 && !(buffer[5] == 0x56 && buffer[6] == 0x03)) return;
         List<byte> littleBytes = new List<byte>(bytes);
         foreach (var b in buffer)
         {

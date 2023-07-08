@@ -1,0 +1,12 @@
+** Always the same
+ID Frame ID bytes little endian
+DB Data bytes little endian
+DS Data size in bytes
+
+** ** ID ID DB DB DB DB DB DB DB DB ** 
+--------------------------------------
+C8 AA 03 61 FF FF FF FF FF FF FF FF 55
+** ** ** ** ** ID ID ** ** DS DB DB DB DB DB DB DB DB 
+AA-55-01-01-01-56-03-00-00-08-96-14-8B-00-82-00-00-00-00-1B - 0356 Windows
+
+AA-55-01-01-01-56-03-00-00-08-14-14-F3-02-AA-00-00-00-00-2B - 0356 Unix
