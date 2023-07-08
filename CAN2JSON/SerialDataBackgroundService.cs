@@ -2,6 +2,7 @@
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -60,14 +61,23 @@ public class SerialDataBackgroundService : BackgroundService
         byte[] buffer = new byte[bytes];
         sp.Read(buffer, 0, bytes);
         if (bytes != 20 && !(buffer[5] == 0x56 && buffer[6] == 0x03)) return;
-        List<byte> littleBytes = new List<byte>(bytes);
+        List<byte> dataBytes = new List<byte>(bytes);
         foreach (var b in buffer)
         {
             var swp = BinaryPrimitives.ReverseEndianness(b);
-            littleBytes.Add(swp);
+            dataBytes.Add(swp);
+        }
+
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            dataBytes.AddRange(buffer[10..17]);
         }
         // Array.Reverse(buffer);
-        var receivedData = BitConverter.ToString(buffer); // Read the received data from the serial port
+        var volts = BitConverter.ToInt16(new[] { dataBytes[1], dataBytes[0] });
+        var current = BitConverter.ToInt16(new[] { dataBytes[3], dataBytes[2] });
+        var temp = BitConverter.ToInt16(new[] { dataBytes[5], dataBytes[4] });
+        // var receivedData = BitConverter.ToString(buffer); // Read the received data from the serial port
+        var receivedData = $"Battery=> Voltage: {volts/10}V, Current: {current/10}A, Temp: {temp/10}°C";
 
         try
         {
