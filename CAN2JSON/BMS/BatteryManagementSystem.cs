@@ -151,14 +151,7 @@ public class BmsStatuses
     public JsonObject ToJson()
     {
         var json = new JsonObject();
-        json["1"] = Status1;
-        json["2"] = Status2;
-        json["3"] = Status3;
-        json["4"] = Status4;
-        json["5"] = Status5;
-        json["6"] = Status6;
-        json["7"] = Status7;
-        json["8"] = Status8;
+        json["=>"] = $"{Status1}, {Status2}, {Status3}, {Status4}, {Status5}, {Status6}, {Status7}, {Status8}";
         return json;
     }
 }
