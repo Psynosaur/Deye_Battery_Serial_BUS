@@ -14,6 +14,7 @@ public class BatteryManagementSystem
     public decimal ChargeCurrentLimitMax { get; set; }
     public decimal Voltage { get; set; }
     public decimal Amps { get; set; }
+    public decimal Watts { get; set; }
     public decimal Temperature { get; set; }
     public decimal StateOfCharge { get; set; }
     public decimal StateOfHealth { get; set; }
@@ -92,6 +93,7 @@ public class BatteryManagementSystem
         json["SOH"] = StateOfHealth;
         json["Voltage"] = Voltage;
         json["Amp"] = Amps;
+        json["Watts"] = Watts;
         json["Temp"] = Temperature;
         json["Cell(V) H"] = CellVoltageHigh;
         json["Cell(V) L"] = CellVoltageLow;

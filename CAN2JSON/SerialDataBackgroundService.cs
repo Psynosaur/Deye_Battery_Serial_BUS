@@ -222,7 +222,8 @@ public class SerialDataBackgroundService : BackgroundService
             {
                 _batteryManagementSystem.Voltage = canFrame.DataInShorts[0] / 100m;
                 _batteryManagementSystem.Amps = canFrame.DataInShorts[1] / 10m;
-                _batteryManagementSystem.Temperature = canFrame.DataInShorts[1] / 10m;
+                _batteryManagementSystem.Temperature = canFrame.DataInShorts[2] / 10m;
+                _batteryManagementSystem.Watts = _batteryManagementSystem.Voltage * _batteryManagementSystem.Amps/1m;
                 continue;
             }
             if (canFrame.FrameId.Equals("0361"))
