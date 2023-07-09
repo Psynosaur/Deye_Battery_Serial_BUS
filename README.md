@@ -44,99 +44,265 @@ TYPE [MULTIPLIER][:[TEXT][[0].NUM_DIGITS][TEXT]]
 ## Current Web API CAN data output
 ```JSON
 {
-    "Frame_0355": {
-        "data": "100, 100, 0, 0"
+    "ChargeVoltage": 0,
+    "CurrentLimit": 0,
+    "DischargeLimit": 0,
+    "BatteryCutoffVoltage": 0,
+    "ChargeCurrentLimit": 0,
+    "ChargeCurrentLimitMax": 0,
+    "CurrentStateVoltage": 0,
+    "CurrentStateCurrent": 0,
+    "CurrentStateTemperature": 0,
+    "CellVoltageHigh": 0,
+    "CellVoltageLow": 0,
+    "BmsTemperatureHigh": 0,
+    "BmsTemperatureLow": 0,
+    "BatteryCapacity": 0,
+    "FullChargedRestingVoltage": 0,
+    "Statuses": {
+        "BatteryCount": 0,
+        "Status1": 0,
+        "Status2": 0,
+        "Status3": 0,
+        "Status4": 0,
+        "Status5": 0,
+        "Status6": 0,
+        "Status7": 0
     },
-    "Frame_0305": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0200": {
-        "data": "3438, 3383, 190, 180"
-    },
-    "Frame_0359": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0371": {
-        "data": "0, 1800, 0, 0"
-    },
-    "Frame_0251": {
-        "data": "170, -400, 0, 100"
-    },
-    "Frame_0361": {
-        "data": "3438, 3374, 190, 170"
-    },
-    "Frame_0364": {
-        "data": "514, 0, 2, 0"
-    },
-    "Frame_0151": {
-        "data": "543, 0, 1000, 1000"
-    },
-    "Frame_0250": {
-        "data": "190, -400, 0, 100"
-    },
-    "Frame_0401": {
-        "data": "1, 3, 528, 18"
-    },
-    "Frame_0550": {
-        "data": "18933, 0, 15151, 0"
-    },
-    "Frame_0150": {
-        "data": "546, 0, 1000, 1000"
-    },
-    "Frame_0750": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0501": {
-        "data": "1056, 22186, 11831, 13872"
-    },
-    "Frame_035E": {
-        "data": "22852, 12336, 817, 2000"
-    },
-    "Frame_0351": {
-        "data": "576, 0, 1800, 480"
-    },
-    "Frame_035C": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0363": {
-        "data": "1056, 544, 0, 0"
-    },
-    "Frame_0601": {
-        "data": "12336, 12341, 12337, 12336"
-    },
-    "Frame_0400": {
-        "data": "1, 3, 5184, 18"
-    },
-    "Frame_0551": {
-        "data": "18876, 0, 15149, 0"
-    },
-    "Frame_0600": {
-        "data": "12336, 12341, 12337, 12336"
-    },
-    "Frame_0201": {
-        "data": "3410, 3374, 180, 170"
-    },
-    "Frame_0751": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0356": {
-        "data": "5440, 0, 170, 0"
-    },
-    "Frame_0111": {
-        "data": "0, 0, 0, 8448"
-    },
-    "Frame_0110": {
-        "data": "0, 0, 0, 8448"
-    },
-    "Frame_0500": {
-        "data": "1056, 22186, 11831, 13872"
-    },
-    "Frame_0701": {
-        "data": "0, 0, 0, 0"
-    },
-    "Frame_0700": {
-        "data": "1, 0, 0, 0"
-    }
+    "Batteries": [],
+    "CanFrames": [
+        {
+            "FrameId": "0251",
+            "Data1": 120,
+            "Data2": -400,
+            "Data3": 0,
+            "Data4": 100
+        },
+        {
+            "FrameId": "0111",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 8448
+        },
+        {
+            "FrameId": "0361",
+            "Data1": 3338,
+            "Data2": 3332,
+            "Data3": 120,
+            "Data4": 120
+        },
+        {
+            "FrameId": "0355",
+            "Data1": 100,
+            "Data2": 100,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0200",
+            "Data1": 3338,
+            "Data2": 3332,
+            "Data3": 120,
+            "Data4": 120
+        },
+        {
+            "FrameId": "0351",
+            "Data1": 576,
+            "Data2": 0,
+            "Data3": 1800,
+            "Data4": 480
+        },
+        {
+            "FrameId": "0359",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0250",
+            "Data1": 120,
+            "Data2": -400,
+            "Data3": 0,
+            "Data4": 100
+        },
+        {
+            "FrameId": "0110",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 8448
+        },
+        {
+            "FrameId": "0364",
+            "Data1": 514,
+            "Data2": 0,
+            "Data3": 2,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0371",
+            "Data1": 0,
+            "Data2": 1800,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "035C",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "035E",
+            "Data1": 22852,
+            "Data2": 12336,
+            "Data3": 817,
+            "Data4": 2000
+        },
+        {
+            "FrameId": "0500",
+            "Data1": 1056,
+            "Data2": 22186,
+            "Data3": 11831,
+            "Data4": 13872
+        },
+        {
+            "FrameId": "0401",
+            "Data1": 1,
+            "Data2": 3,
+            "Data3": 0,
+            "Data4": 18
+        },
+        {
+            "FrameId": "0363",
+            "Data1": 1056,
+            "Data2": 544,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0201",
+            "Data1": 3338,
+            "Data2": 3332,
+            "Data3": 120,
+            "Data4": 120
+        },
+        {
+            "FrameId": "0151",
+            "Data1": 533,
+            "Data2": 0,
+            "Data3": 1000,
+            "Data4": 1000
+        },
+        {
+            "FrameId": "0356",
+            "Data1": 5330,
+            "Data2": 0,
+            "Data3": 120,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0305",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0400",
+            "Data1": 1,
+            "Data2": 3,
+            "Data3": 0,
+            "Data4": 18
+        },
+        {
+            "FrameId": "0651",
+            "Data1": 13122,
+            "Data2": 13105,
+            "Data3": 12594,
+            "Data4": 13366
+        },
+        {
+            "FrameId": "0150",
+            "Data1": 533,
+            "Data2": 0,
+            "Data3": 1000,
+            "Data4": 1000
+        },
+        {
+            "FrameId": "0550",
+            "Data1": 18933,
+            "Data2": 0,
+            "Data3": 15151,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0601",
+            "Data1": 12336,
+            "Data2": 12341,
+            "Data3": 12337,
+            "Data4": 12336
+        },
+        {
+            "FrameId": "0700",
+            "Data1": 1,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0551",
+            "Data1": 18876,
+            "Data2": 0,
+            "Data3": 15149,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0750",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0650",
+            "Data1": 13122,
+            "Data2": 13105,
+            "Data3": 12594,
+            "Data4": 13111
+        },
+        {
+            "FrameId": "0600",
+            "Data1": 12336,
+            "Data2": 12341,
+            "Data3": 12337,
+            "Data4": 12336
+        },
+        {
+            "FrameId": "0501",
+            "Data1": 1056,
+            "Data2": 22186,
+            "Data3": 11831,
+            "Data4": 13872
+        },
+        {
+            "FrameId": "0701",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        },
+        {
+            "FrameId": "0751",
+            "Data1": 0,
+            "Data2": 0,
+            "Data3": 0,
+            "Data4": 0
+        }
+    ]
 }
 ```
 	
