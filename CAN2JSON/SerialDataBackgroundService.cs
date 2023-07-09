@@ -112,7 +112,7 @@ public class SerialDataBackgroundService : BackgroundService
         if (_firstFrame)
         {
             _batteryManagementSystem.CanFrames.Add(canFrame);
-            _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"..\Deye slim.xml");
+            _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"Deye slim.xml");
             _firstFrame = false;
         }
         StatusUpdateAndAddBatteries(canFrame);
