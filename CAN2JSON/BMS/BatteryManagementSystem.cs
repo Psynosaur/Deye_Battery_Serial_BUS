@@ -23,7 +23,7 @@ public class BatteryManagementSystem
     public decimal BmsTemperatureHigh { get; set; }
     public decimal BmsTemperatureLow { get; set; }
     public decimal BatteryCapacity { get; set; }
-    
+
     public decimal FullChargedRestingVoltage { get; set; }
     public BmsStatuses Statuses { get; set; }
 
@@ -79,9 +79,8 @@ public class BatteryManagementSystem
         var temp = XmlJnode.AsObject();
         foreach (var jn in temp)
         {
-            if(jn.Key.Equals("HeaderTreeNode")) Console.WriteLine($"{jn.Key} {jn.Value}");
+            if (jn.Key.Equals("HeaderTreeNode")) Console.WriteLine($"{jn.Key} {jn.Value}");
         }
-
     }
 
 
@@ -95,7 +94,7 @@ public class BatteryManagementSystem
         json["Temp"] = Temperature;
         json["Cell(V) H"] = CellVoltageHigh;
         json["Cell(V) L"] = CellVoltageLow;
-        json["Cell(V) d"] = CellVoltageHigh - CellVoltageLow /1m;
+        json["Cell(V) d"] = CellVoltageHigh - CellVoltageLow / 1m;
         json["BmsTempHigh"] = BmsTemperatureHigh;
         json["BmsTempLow"] = BmsTemperatureLow;
         json["ChargeLimit(A)"] = ChargeCurrentLimit;
@@ -106,7 +105,7 @@ public class BatteryManagementSystem
         json["DischargeLimit(A)"] = DischargeLimit;
         json["BatteryCapacity(Ah)"] = BatteryCapacity;
         json["Resting(V)"] = FullChargedRestingVoltage;
-        
+
         var batteriesJsonArray = new JsonArray();
         foreach (var battery in Batteries)
         {
@@ -151,7 +150,16 @@ public class BmsStatuses
     public JsonObject ToJson()
     {
         var json = new JsonObject();
-        json["VALUES"] = new JsonArray(Status1, Status2, Status3, Status4, Status5, Status6, Status7, Status8);
+        json["VALUES"] = new JsonArray(
+            json["1"] = Status1,
+            json["2"] = Status2,
+            json["3"] = Status3,
+            json["4"] = Status4,
+            json["5"] = Status5,
+            json["6"] = Status6,
+            json["7"] = Status7,
+            json["8"] = Status8
+        );
         return json;
     }
 }
