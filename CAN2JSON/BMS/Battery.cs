@@ -4,25 +4,25 @@ namespace CAN2JSON.BMS
 {
     public class Battery
     {
-        public double BatteryVoltage { get; set; }
-        public double BatteryCurrent { get; set; }
-        public double StateOfCharge { get; set; }
-        public double StateOfHealth { get; set; }
+        public decimal BatteryVoltage { get; set; }
+        public decimal BatteryCurrent { get; set; }
+        public decimal StateOfCharge { get; set; }
+        public decimal StateOfHealth { get; set; }
 
-        public double CellVoltageHigh { get; set; }
-        public double CellVoltageLow { get; set; }
+        public decimal CellVoltageHigh { get; set; }
+        public decimal CellVoltageLow { get; set; }
         
-        public double CellVoltageDelta { get; set; }
+        public decimal CellVoltageDelta { get; set; }
         
-        public int TemperatureOne { get; set; }
-        public int TemperatureTwo { get; set; }
-        public int TemperatureMos { get; set; }
+        public decimal TemperatureOne { get; set; }
+        public decimal TemperatureTwo { get; set; }
+        public decimal TemperatureMos { get; set; }
 
-        public double CurrentLimit { get; set; }
-        public double CurrentLimitMax { get; set; }
+        public decimal CurrentLimit { get; set; }
+        public decimal CurrentLimitMax { get; set; }
 
-        public double ChargedTotal { get; set; }
-        public double DischargedTotal { get; set; }
+        public decimal ChargedTotal { get; set; }
+        public decimal DischargedTotal { get; set; }
 
         public Battery()
         {
@@ -30,15 +30,15 @@ namespace CAN2JSON.BMS
         public JsonObject ToJson()
         {
             var json = new JsonObject();
-            json["BatteryVoltage"] = BatteryVoltage;
-            json["BatteryCurrent"] = BatteryCurrent;
+            json["Voltage"] = BatteryVoltage;
+            json["Current"] = BatteryCurrent;
             json["StateOfCharge"] = StateOfCharge;
             json["StateOfHealth"] = StateOfHealth;
-            json["CellVoltageHigh"] = CellVoltageHigh;
-            json["CellVoltageLow"] = CellVoltageLow;
-            json["CellVoltageDelta"] = CellVoltageDelta;
-            json["TemperatureOne"] = TemperatureOne;
-            json["TemperatureTwo"] = TemperatureTwo;
+            json["CellHigh"] = CellVoltageHigh;
+            json["CellLow"] = CellVoltageLow;
+            json["CellDelta"] = CellVoltageDelta;
+            json["Temp1"] = TemperatureOne;
+            json["Temp2"] = TemperatureTwo;
             json["TemperatureMos"] = TemperatureMos;
             json["CurrentLimit"] = CurrentLimit;
             json["CurrentLimitMax"] = CurrentLimitMax;

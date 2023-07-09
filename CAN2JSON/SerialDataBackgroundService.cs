@@ -21,6 +21,7 @@ public class SerialDataBackgroundService : BackgroundService
     private readonly ApplicationInstance _application;
     private readonly BatteryManagementSystem _batteryManagementSystem = new(1);
     private bool _firstFrame = true;
+    private bool _batteryCountSet = false;
 
     public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger, ApplicationInstance application)
     {
@@ -95,72 +96,8 @@ public class SerialDataBackgroundService : BackgroundService
         {
             var canFrame = new CANFrame(id);
             canFrame.UpdateValues(receivedData);
-
-            if (_firstFrame)
-            {
-                _batteryManagementSystem.CanFrames.Add(canFrame);
-                _firstFrame = false;
-            }
-            if (!_batteryManagementSystem.CanFrames.Any(cf => cf.FrameId.Equals(canFrame.FrameId)))
-            {
-                _batteryManagementSystem.CanFrames.Add(canFrame);
-            }
-            var copyArr = _batteryManagementSystem.CanFrames;
-            for (var index = 0; index < copyArr.Count; index++)
-            {
-                if (copyArr[index].FrameId == canFrame.FrameId)
-                {
-                    copyArr[index] = canFrame;
-                }
-            }
-
-            _batteryManagementSystem.CanFrames = copyArr;
-
-
-            // _logger.LogInformation($"Frames in BMS: {copyArr.Count}");
-
-            var frameStringData =
-                $"{canFrame.DataInShorts[0]}," +
-                $" {canFrame.DataInShorts[1]}," +
-                $" {canFrame.DataInShorts[2]}," +
-                $" {canFrame.DataInShorts[3]}";
-            // Update values of existing frame in collection
-            if (_frames.ContainsKey(id))
-            {
-                string frameId = id;
-                var jsonObj = new JsonObject();
-                FrameType frame = _frames[frameId];
-                jsonObj.Add("data", frameStringData);
-                frame.Data = jsonObj;
-            }
-
-            foreach (var frame in _frames.Values)
-            {
-                var frameJson = frame.ToJson();
-                if (frameJson.Count > 0)
-                {
-                    if (!_document.ContainsKey(frame.FrameId))
-                    {
-                        _document.Add(frame.FrameId, frameJson);
-                        return;
-                    }
-
-                    if (_document.ContainsKey(frame.FrameId))
-                    {
-                        _document.Remove(frame.FrameId);
-                        _document.Add(frame.FrameId, frameJson);
-                    }
-                }
-            }
-
-            // Add frame if not in frame collection already
-            if (!_frames.ContainsKey(id))
-            {
-                var jsonObj = new JsonObject();
-                jsonObj.Add("data", frameStringData);
-                _frames.Add(id, new FrameType(id, jsonObj));
-            }
-
+            UpdateCanFrames(canFrame);
+            
             _application.Application["json"] = _batteryManagementSystem.ToJson();
         }
         catch (Exception ex)
@@ -168,6 +105,154 @@ public class SerialDataBackgroundService : BackgroundService
             var errFrameData = BitConverter.ToString(receivedData);
             _logger.LogError(ex, errFrameData);
         }
+    }
+
+    private void UpdateCanFrames(CANFrame canFrame)
+    {
+        if (_firstFrame)
+        {
+            _batteryManagementSystem.CanFrames.Add(canFrame);
+            _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"..\Deye slim.xml");
+            _firstFrame = false;
+        }
+        StatusUpdateAndAddBatteries(canFrame);
+        
+        // Update Battery Info
+        UpdateBatteryInformation(canFrame);
+
+        UpdateBmsData(canFrame);
+
+        if (!_batteryManagementSystem.CanFrames.Any(cf => cf.FrameId.Equals(canFrame.FrameId)))
+        {
+            _batteryManagementSystem.CanFrames.Add(canFrame);
+        }
+
+        var copyArr = _batteryManagementSystem.CanFrames;
+        for (var index = 0; index < copyArr.Count; index++)
+        {
+            if (copyArr[index].FrameId == canFrame.FrameId) copyArr[index] = canFrame;
+        }
+
+        _batteryManagementSystem.CanFrames = copyArr;
+    }
+
+    private void UpdateBatteryInformation(CANFrame canFrame)
+    {
+        for (int i = 0; i < _batteryManagementSystem.Batteries.Count; i++)
+        {
+            if (canFrame.FrameId.Equals($"015{i}"))
+            {
+                _batteryManagementSystem.Batteries[i].BatteryVoltage = canFrame.DataInShorts[0] / 10m;
+                _batteryManagementSystem.Batteries[i].BatteryCurrent = canFrame.DataInShorts[1] / 10m;
+                _batteryManagementSystem.Batteries[i].StateOfCharge = canFrame.DataInShorts[2] / 10m;
+                _batteryManagementSystem.Batteries[i].StateOfHealth = canFrame.DataInShorts[3] / 10m;
+                continue;
+            }
+
+            if (canFrame.FrameId.Equals($"020{i}"))
+            {
+                _batteryManagementSystem.Batteries[i].CellVoltageHigh = canFrame.DataInShorts[0] / 1000m;
+                _batteryManagementSystem.Batteries[i].CellVoltageLow = canFrame.DataInShorts[1] / 1000m;
+                _batteryManagementSystem.Batteries[i].TemperatureOne = canFrame.DataInShorts[2] / 10m;
+                _batteryManagementSystem.Batteries[i].TemperatureTwo = canFrame.DataInShorts[3] / 10m;
+                _batteryManagementSystem.Batteries[i].CellVoltageDelta =
+                    canFrame.DataInShorts[0] / 1000m - canFrame.DataInShorts[1] / 1000m;
+
+                continue;
+            }
+
+            if (canFrame.FrameId.Equals($"025{i}"))
+            {
+                _batteryManagementSystem.Batteries[i].TemperatureMos = canFrame.DataInShorts[0] / 10m;
+                // _batteryManagementSystem.Batteries[i].CurrentLimit = canFrame.DataInShorts[1]/10m;
+                _batteryManagementSystem.Batteries[i].CurrentLimit = canFrame.DataInShorts[2] / 1m;
+                _batteryManagementSystem.Batteries[i].CurrentLimitMax = canFrame.DataInShorts[3] / 1m;
+                continue;
+            }
+
+            if (canFrame.FrameId.Equals($"055{i}"))
+            {
+                _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInShorts[0] / 1000m;
+                _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInShorts[2] / 1000m;
+            }
+        }
+    }
+    
+    private void UpdateBmsData(CANFrame canFrame)
+    {
+        for (int i = 0; i < _batteryManagementSystem.Batteries.Count; i++)
+        {
+            if (canFrame.FrameId.Equals("0351"))
+            {
+                _batteryManagementSystem.ChargeVoltage = canFrame.DataInShorts[0] / 10m;
+                _batteryManagementSystem.ChargeCurrentLimit = canFrame.DataInShorts[1] / 10m;
+                _batteryManagementSystem.ChargeCurrentLimitMax = canFrame.DataInShorts[2] / 10m;
+                _batteryManagementSystem.BatteryCutoffVoltage = canFrame.DataInShorts[3] / 10m;
+                continue;
+            }
+            if (canFrame.FrameId.Equals("0371"))
+            {
+                _batteryManagementSystem.CurrentLimit = canFrame.DataInShorts[0] / 10m;
+                _batteryManagementSystem.DischargeLimit = canFrame.DataInShorts[1] / 10m;
+                continue;
+            }
+            if (canFrame.FrameId.Equals("0355"))
+            {
+                _batteryManagementSystem.StateOfCharge = canFrame.DataInShorts[0] / 1m;
+                _batteryManagementSystem.StateOfHealth = canFrame.DataInShorts[1] / 1m;
+                continue;
+            }
+            if (canFrame.FrameId.Equals("0356"))
+            {
+                _batteryManagementSystem.Voltage = canFrame.DataInShorts[0] / 100m;
+                _batteryManagementSystem.Amps = canFrame.DataInShorts[1] / 10m;
+                _batteryManagementSystem.Temperature = canFrame.DataInShorts[1] / 10m;
+                continue;
+            }
+            if (canFrame.FrameId.Equals("0361"))
+            {
+                _batteryManagementSystem.CellVoltageHigh = canFrame.DataInShorts[0] / 1000m;
+                _batteryManagementSystem.CellVoltageLow = canFrame.DataInShorts[1] / 1000m;
+                _batteryManagementSystem.BmsTemperatureHigh = canFrame.DataInShorts[2] / 10m;
+                _batteryManagementSystem.BmsTemperatureLow = canFrame.DataInShorts[3] / 10m;
+                _batteryManagementSystem.CellVoltageDelta = 
+                    canFrame.DataInShorts[0] / 1000m - canFrame.DataInShorts[1] / 1000m;
+                continue;
+            }
+            if (canFrame.FrameId.Equals("0363"))
+            {
+                _batteryManagementSystem.BatteryCapacity = canFrame.DataInShorts[0] / 10m * _batteryManagementSystem.Batteries.Count;
+                _batteryManagementSystem.FullChargedRestingVoltage = canFrame.DataInShorts[1] / 10m;
+            }
+            
+        }
+    }
+
+    private void StatusUpdateAndAddBatteries(CANFrame canFrame)
+    {
+        if (!canFrame.FrameId.Equals("0364")) return;
+        _batteryManagementSystem.Statuses = new BmsStatuses
+        {
+            Status1 = canFrame.Data[10],
+            Status2 = canFrame.Data[11],
+            Status3 = canFrame.Data[12],
+            Status4 = canFrame.Data[13],
+            Status5 = canFrame.Data[14],
+            Status6 = canFrame.Data[15],
+            Status7 = canFrame.Data[16],
+            Status8 = canFrame.Data[17]
+        };
+        if (_batteryCountSet) return;
+        _batteryCountSet = true;
+        var batCount = _batteryManagementSystem.Statuses.Status5;
+        _batteryManagementSystem.Batteries = new List<Battery>(batCount);
+        var batteries = new List<Battery>(batCount);
+        for (var i = 0; i < batCount; i++)
+        {
+            var battery = new Battery();
+            batteries.Add(battery);
+        }
+        _batteryManagementSystem.Batteries.AddRange(batteries);
     }
 }
 
