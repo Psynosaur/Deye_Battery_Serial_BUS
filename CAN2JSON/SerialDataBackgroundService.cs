@@ -28,7 +28,7 @@ public class SerialDataBackgroundService : BackgroundService
         _logger = logger;
         _application = application;
         _document = new JsonObject();
-        _serialPort = new SerialPort(false ? "/dev/ttyUSB0" : "COM6", 2000000);
+        _serialPort = new SerialPort(true ? "/dev/ttyUSB0" : "COM6", 2000000);
         _frames = new Dictionary<string, FrameType>
         {
             { "000", new FrameType("000", new JsonObject()) }
