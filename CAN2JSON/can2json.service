@@ -1,0 +1,14 @@
+[Unit]
+Description=Deye_BMS
+After=syslog.target
+
+[Service]
+WorkingDirectory=placeholder
+ExecStart=/root/.dotnet/dotnet placeholder/CAN2JSON.dll
+Restart=always
+RestartSec=30
+User=suchuser
+SyslogIdentifier=deye_bms_can2json
+
+[Install]
+WantedBy=multi-user.target
