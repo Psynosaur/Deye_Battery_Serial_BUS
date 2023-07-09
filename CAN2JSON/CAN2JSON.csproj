@@ -17,11 +17,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\Deye Battery Bank.xml">
+        <Content Include="Deye Battery Bank.xml">
             <Link>Deye Battery Bank.xml</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="..\Deye slim.xml">
+        <Content Include="Deye slim.xml">
             <Link>Deye slim.xml</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
