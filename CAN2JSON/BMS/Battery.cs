@@ -23,6 +23,9 @@ namespace CAN2JSON.BMS
 
         public decimal ChargedTotal { get; set; }
         public decimal DischargedTotal { get; set; }
+        
+        public decimal Cycles { get; set; }
+        public BmsStatuses Status { get; set; }
 
         public Battery()
         {
@@ -44,6 +47,7 @@ namespace CAN2JSON.BMS
             json["CurrentLimitMax"] = CurrentLimitMax;
             json["ChargedTotal"] = ChargedTotal;
             json["DischargedTotal"] = DischargedTotal;
+            json["Status"] = Status.ToJson();
             return json;
         }
     }

@@ -169,11 +169,27 @@ public class SerialDataBackgroundService : BackgroundService
                 _batteryManagementSystem.Batteries[i].CurrentLimitMax = canFrame.DataInShorts[3] / 1m;
                 continue;
             }
+            if (canFrame.FrameId.Equals($"040{i}"))
+            {
+                _batteryManagementSystem.Batteries[i].Status = new BmsStatuses
+                {
+                    Status1 = canFrame.Data[10],
+                    Status2 = canFrame.Data[11],
+                    Status3 = canFrame.Data[12],
+                    Status4 = canFrame.Data[13],
+                    Status5 = canFrame.Data[14],
+                    Status6 = canFrame.Data[15],
+                    Status7 = canFrame.Data[16],
+                    Status8 = canFrame.Data[17]
+                };
+                continue;
+            }
 
             if (canFrame.FrameId.Equals($"055{i}"))
             {
                 _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInShorts[0] / 1000m;
                 _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInShorts[2] / 1000m;
+                _batteryManagementSystem.Batteries[i].Cycles = canFrame.DataInShorts[2]/5120/1m  ;
             }
         }
     }

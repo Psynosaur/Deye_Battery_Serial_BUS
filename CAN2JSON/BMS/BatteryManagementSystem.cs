@@ -155,7 +155,7 @@ public class BmsStatuses
         json["Status2"] = Status2;
         json["Status3"] = Status3;
         json["Status4"] = Status4;
-        json["Status5"] = Status5;
+        json["BatteryCount"] = Status5;
         json["Status6"] = Status6;
         json["Status7"] = Status7;
         json["Status8"] = Status8;
