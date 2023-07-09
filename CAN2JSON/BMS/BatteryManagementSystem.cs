@@ -91,20 +91,21 @@ public class BatteryManagementSystem
         json["SOC"] = StateOfCharge;
         json["SOH"] = StateOfHealth;
         json["Voltage"] = Voltage;
-        json["CurrentStateCurrent"] = Amps;
-        json["CurrentStateTemperature"] = Temperature;
-        json["CellVoltageHigh"] = CellVoltageHigh;
-        json["CellVoltageLow"] = CellVoltageLow;
-        json["BmsTemperatureHigh"] = BmsTemperatureHigh;
-        json["BmsTemperatureLow"] = BmsTemperatureLow;
-        json["ChargeCurrentLimit"] = ChargeCurrentLimit;
-        json["ChargeCurrentLimitMax"] = ChargeCurrentLimitMax;
-        json["CutoffVoltage"] = BatteryCutoffVoltage;
-        json["ChargeVoltage"] = ChargeVoltage;
-        json["CurrentLimit"] = CurrentLimit;
-        json["DischargeLimit"] = DischargeLimit;
-        json["BatteryCapacity"] = BatteryCapacity;
-        json["RestingVoltage"] = FullChargedRestingVoltage;
+        json["Amp"] = Amps;
+        json["Temp"] = Temperature;
+        json["Cell(V) H"] = CellVoltageHigh;
+        json["Cell(V) L"] = CellVoltageLow;
+        json["Cell(V) d"] = CellVoltageHigh - CellVoltageLow /1m;
+        json["BmsTempHigh"] = BmsTemperatureHigh;
+        json["BmsTempLow"] = BmsTemperatureLow;
+        json["ChargeLimit(A)"] = ChargeCurrentLimit;
+        json["ChargeLimitMax(A)"] = ChargeCurrentLimitMax;
+        json["Cut off(V)"] = BatteryCutoffVoltage;
+        json["Charge(V)"] = ChargeVoltage;
+        json["CurrentLimit(A)"] = CurrentLimit;
+        json["DischargeLimit(A)"] = DischargeLimit;
+        json["BatteryCapacity(Ah)"] = BatteryCapacity;
+        json["Resting(V)"] = FullChargedRestingVoltage;
         
         var batteriesJsonArray = new JsonArray();
         foreach (var battery in Batteries)
@@ -127,9 +128,9 @@ public class BatteryManagementSystem
         }
 
         json["CanFrames"] = canFramesJsonArray;
-        ParseMessageTreeNodes();
-        FindJsonObjectByPropertyName();
-        json["XmlTemplate"] = XmlJnode;
+        // ParseMessageTreeNodes();
+        // FindJsonObjectByPropertyName();
+        // json["XmlTemplate"] = XmlJnode;
 
         return json;
     }
