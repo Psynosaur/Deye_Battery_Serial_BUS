@@ -219,13 +219,6 @@ TYPE [MULTIPLIER][:[TEXT][[0].NUM_DIGITS][TEXT]]
             "Data4": 18
         },
         {
-            "FrameId": "0651",
-            "Data1": 13122,
-            "Data2": 13105,
-            "Data3": 12594,
-            "Data4": 13366
-        },
-        {
             "FrameId": "0150",
             "Data1": 533,
             "Data2": 0,
@@ -238,13 +231,6 @@ TYPE [MULTIPLIER][:[TEXT][[0].NUM_DIGITS][TEXT]]
             "Data2": 0,
             "Data3": 15151,
             "Data4": 0
-        },
-        {
-            "FrameId": "0601",
-            "Data1": 12336,
-            "Data2": 12341,
-            "Data3": 12337,
-            "Data4": 12336
         },
         {
             "FrameId": "0700",
@@ -266,21 +252,7 @@ TYPE [MULTIPLIER][:[TEXT][[0].NUM_DIGITS][TEXT]]
             "Data2": 0,
             "Data3": 0,
             "Data4": 0
-        },
-        {
-            "FrameId": "0650",
-            "Data1": 13122,
-            "Data2": 13105,
-            "Data3": 12594,
-            "Data4": 13111
-        },
-        {
-            "FrameId": "0600",
-            "Data1": 12336,
-            "Data2": 12341,
-            "Data3": 12337,
-            "Data4": 12336
-        },
+        },        
         {
             "FrameId": "0501",
             "Data1": 1056,
