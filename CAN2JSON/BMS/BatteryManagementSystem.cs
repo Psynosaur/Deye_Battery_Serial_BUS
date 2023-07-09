@@ -106,7 +106,7 @@ public class BatteryManagementSystem
         json["DischargeLimit(A)"] = DischargeLimit;
         json["BatteryCapacity(Ah)"] = BatteryCapacity;
         json["Resting(V)"] = FullChargedRestingVoltage;
-        
+        json["Statuses"] = Statuses.ToJson();
         var batteriesJsonArray = new JsonArray();
         foreach (var battery in Batteries)
         {
@@ -115,9 +115,8 @@ public class BatteryManagementSystem
             var batteryJsonObject = document.RootElement.Clone();
             batteriesJsonArray.Add(batteryJsonObject);
         }
-
         json["Batteries"] = batteriesJsonArray;
-        json["Statuses"] = Statuses.ToJson();
+
         var canFramesJsonArray = new JsonArray();
         foreach (var frame in CanFrames)
         {
@@ -126,7 +125,6 @@ public class BatteryManagementSystem
             var frameJsonObject = document.RootElement.Clone();
             canFramesJsonArray.Add(frameJsonObject);
         }
-
         json["CanFrames"] = canFramesJsonArray;
         // ParseMessageTreeNodes();
         // FindJsonObjectByPropertyName();
