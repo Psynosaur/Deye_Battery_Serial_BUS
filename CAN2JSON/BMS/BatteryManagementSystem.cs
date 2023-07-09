@@ -117,7 +117,7 @@ public class BatteryManagementSystem
         }
 
         json["Batteries"] = batteriesJsonArray;
-        json["Statuses"] = Statuses.ToJson();
+        json["Status"] = Statuses.ToJson();
         var canFramesJsonArray = new JsonArray();
         foreach (var frame in CanFrames)
         {
@@ -151,14 +151,7 @@ public class BmsStatuses
     public JsonObject ToJson()
     {
         var json = new JsonObject();
-        json["Status1"] = Status1;
-        json["Status2"] = Status2;
-        json["Status3"] = Status3;
-        json["Status4"] = Status4;
-        json["BatteryCount"] = Status5;
-        json["Status6"] = Status6;
-        json["Status7"] = Status7;
-        json["Status8"] = Status8;
+        json["VALUES"] = new JsonArray(Status1, Status2, Status3, Status4, Status5, Status6, Status7, Status8);
         return json;
     }
 }

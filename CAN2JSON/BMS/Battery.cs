@@ -47,6 +47,7 @@ namespace CAN2JSON.BMS
             json["CurrentLimitMax"] = CurrentLimitMax;
             json["ChargedTotal"] = ChargedTotal;
             json["DischargedTotal"] = DischargedTotal;
+            json["Cycles"] = Cycles;
             json["Status"] = Status.ToJson();
             return json;
         }
