@@ -238,7 +238,7 @@ public class SerialDataBackgroundService : BackgroundService
             }
             if (canFrame.FrameId.Equals("0363"))
             {
-                _batteryManagementSystem.BatteryCapacity = canFrame.DataInShorts[0] / 10m * _batteryManagementSystem.Batteries.Count;
+                _batteryManagementSystem.BatteryCapacity = canFrame.DataInShorts[0] / 10m;
                 _batteryManagementSystem.FullChargedRestingVoltage = canFrame.DataInShorts[1] / 10m;
             }
             
