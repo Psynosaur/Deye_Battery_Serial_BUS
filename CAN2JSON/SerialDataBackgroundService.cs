@@ -171,7 +171,7 @@ public class SerialDataBackgroundService : BackgroundService
             }
             if (canFrame.FrameId.Equals($"040{i}"))
             {
-                _batteryManagementSystem.Batteries[i].Status = new BmsStatuses
+                _batteryManagementSystem.Batteries[i].Status = new BatteryBmsStatuses
                 {
                     Status1 = canFrame.Data[10],
                     Status2 = canFrame.Data[11],

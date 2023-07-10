@@ -127,7 +127,7 @@ public class BatteryManagementSystem
             var frameJsonObject = document.RootElement.Clone();
             canFramesJsonArray.Add(frameJsonObject);
         }
-        json["CanFrames"] = canFramesJsonArray;
+        // json["CanFrames"] = canFramesJsonArray;
         // ParseMessageTreeNodes();
         // FindJsonObjectByPropertyName();
         // json["XmlTemplate"] = XmlJnode;
