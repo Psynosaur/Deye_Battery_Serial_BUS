@@ -143,7 +143,7 @@ public class SerialDataBackgroundService : BackgroundService
             if (canFrame.FrameId.Equals($"015{i}"))
             {
                 _batteryManagementSystem.Batteries[i].BatteryVoltage = canFrame.DataInShorts[0] / 10m;
-                _batteryManagementSystem.Batteries[i].BatteryCurrent = canFrame.DataInShorts[1] / 10m;
+                _batteryManagementSystem.Batteries[i].BatteryCurrent = canFrame.DataInShorts[1] / -10m;
                 _batteryManagementSystem.Batteries[i].StateOfCharge = canFrame.DataInShorts[2] / 10m;
                 _batteryManagementSystem.Batteries[i].StateOfHealth = canFrame.DataInShorts[3] / 10m;
                 continue;
