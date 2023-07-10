@@ -1,10 +1,14 @@
 ## Deye_Battery_CAN_BUS Reader
 
-Grabs CAN Serial Frames in the backgrounf and serves an API endpoint for battery and BMS data 
+Grabs CAN Serial Frames in the background and serves an API endpoint for battery and BMS data 
 
     https://xxx.xxx.xxx.xxx:5035/Candata
 
-Setup details will follow soon ...
+## TODO 
+ - Add frame descriptions
+ - Add setup details for raspberry pi
+
+### This CAN be used to debug any CAN device using standard frames, as it outputs the frames via this API.
 
 ### Current Web API CAN data output
 ```JSON
