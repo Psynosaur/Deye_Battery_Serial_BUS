@@ -2,6 +2,7 @@
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Ports;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
@@ -97,7 +98,7 @@ public class SerialDataBackgroundService : BackgroundService
             var canFrame = new CANFrame(id);
             canFrame.UpdateValues(receivedData);
             UpdateCanFrames(canFrame);
-            
+            _batteryManagementSystem.LastUpdate = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);;
             _application.Application["json"] = _batteryManagementSystem.ToJson();
         }
         catch (Exception ex)

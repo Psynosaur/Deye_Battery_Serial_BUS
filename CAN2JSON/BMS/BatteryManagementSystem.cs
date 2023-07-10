@@ -35,6 +35,8 @@ public class BatteryManagementSystem
     public string XmlTemplate { get; set; }
 
     public JsonNode? XmlJnode { get; set; }
+    
+    public string LastUpdate { get; set; }
 
     // Constructor
     public BatteryManagementSystem(int numBatteries)
@@ -128,6 +130,7 @@ public class BatteryManagementSystem
             canFramesJsonArray.Add(frameJsonObject);
         }
         // json["CanFrames"] = canFramesJsonArray;
+        json["date"] = LastUpdate;
         // ParseMessageTreeNodes();
         // FindJsonObjectByPropertyName();
         // json["XmlTemplate"] = XmlJnode;
