@@ -6,7 +6,19 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
 
 ## TODO 
  - Add frame descriptions
+   - Ideally should read CAN Monitor 3000 xml and parse data based on those formats  
  - Add setup details for raspberry pi
+ - Add RS485 support for Deye batteries
+   - Per cell voltage metrics
+   - ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/db687aa1-d8e1-4c50-9894-56bb3609e6ce)
+
+   - Alarms
+ - Split CAN debugging from data api
+   - Debugging for Frame analysis
+   - Data API only for known Frame ids
+ - Should open serial device for product and vendor ids, to open on any Operating System
+
+   
 
 ### This CAN be used to debug any CAN device using standard frames, as it outputs the frames via this API.
 
