@@ -190,7 +190,7 @@ public class SerialDataBackgroundService : BackgroundService
             {
                 _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInShorts[0] / 1000m;
                 _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInShorts[2] / 1000m;
-                _batteryManagementSystem.Batteries[i].Cycles = _batteryManagementSystem.Batteries[i].DischargedTotal*1000/5120m ;
+                _batteryManagementSystem.Batteries[i].Cycles = _batteryManagementSystem.Batteries[i].ChargedTotal*1000/5120m ;
             }
         }
     }

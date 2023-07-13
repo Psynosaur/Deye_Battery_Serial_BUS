@@ -68,7 +68,7 @@ public class BatteryBmsStatuses
     public JsonObject ToJson()
     {
         var json = new JsonObject();
-        json["=>"] = $"0|1|2 {Status1}, {Status2}, cycles {Status3}, {Status4}, {Status5}, {Status6}, {Status7}, {Status8}";
+        json["=>"] = $"0|1|2 {Status1}, {Status2}, cycles {Status3}, {Status4}, {Status5}, {Status6}, SubSystem {Status7}, {Status8}";
         return json;
     }
 }
