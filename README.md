@@ -23,7 +23,7 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
 | 110      | Alarms?                                                                                            | s8,s8,s8,s8,s8,s8,s8,s8                              |
 | 150      | Voltage, Current, SOC, SOH                                                                         | s16,s16,s16,s16                                      |
 | 200      | Cell Voltage (High, Low), Temp (1, 2)                                                              | s16,s16,s16,s16                                      |
-| 250      | MOS Temp, ? , Limits (Current, Max)                                                                | s16,s16,s16,s16                                      |
+| 250      | MOS Temp, * , Limits (Current, Max)                                                                | s16,s16,s16,s16                                      |
 | 400      | Status: 1;2;0, cycles(2nd byte), *, 15;9;, 3-18                                                    | s8,s8,s8,s8,s8,s8,s8,s8                              |
 | 500      | Boot version                                                                                       | HEX to ASCII                                         |
 | 550      | Power IN and Out                                                                                   | s32,s32                                              |
