@@ -22,7 +22,7 @@ public class SerialDataBackgroundService : BackgroundService
     private readonly ApplicationInstance _application;
     private readonly BatteryManagementSystem _batteryManagementSystem = new(1);
     private bool _firstFrame = true;
-    private bool _batteryCountSet = false;
+    private bool _batteryCountSet;
     /// <summary>
     /// Indicates whether the current application is running on Linux.
     /// </summary>
@@ -67,6 +67,7 @@ public class SerialDataBackgroundService : BackgroundService
         try
         {
             _application.Application["json"] = _document;
+            _application.Application["bms"] = _batteryManagementSystem;
             string[] ports = SerialPort.GetPortNames();
            
             
@@ -128,8 +129,9 @@ public class SerialDataBackgroundService : BackgroundService
             canFrame.UpdateValues(receivedData);
             UpdateCanFrames(canFrame);
             _batteryManagementSystem.LastUpdate = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);
-            ;
+            
             _application.Application["json"] = _batteryManagementSystem.ToJson();
+            _application.Application["bms"] = _batteryManagementSystem;
         }
         catch (Exception ex)
         {
@@ -149,7 +151,6 @@ public class SerialDataBackgroundService : BackgroundService
 
         StatusUpdateAndAddBatteries(canFrame);
 
-        // Update Battery Info
         UpdateBatteryInformation(canFrame);
 
         UpdateBmsData(canFrame);

@@ -1,7 +1,8 @@
 using System.Collections.Concurrent;
 using System.Text.Json.Nodes;
 using CAN2JSON;
-
+using CAN2JSON.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHostedService<SerialDataBackgroundService>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ApplicationInstance>();
+builder.Services.AddDbContext<Can2JsonContext>
+    (options => options.UseSqlite("Name=BMSStats"));
 
 var app = builder.Build();
 
