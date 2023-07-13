@@ -114,7 +114,8 @@ Includes CAN BUS tree (XML) of known frame types
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/04c1c34b-6d6d-4141-acb8-f41646d75c32)
 
 #### Hardware connection side 
-![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/e02b6207-d4ea-4d4d-a50a-e3e462aa1385)
+![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/905d121c-b3f2-4eac-9578-d9c0cf407022)
+
 
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/86d262d1-b2b0-4e49-8af9-236f0f778b98)
 
