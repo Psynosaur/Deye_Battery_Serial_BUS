@@ -45,7 +45,7 @@ public class SerialDataBackgroundService : BackgroundService
     {
         var list = DeviceList.Local;
         var allDeviceList = list.GetAllDevices().ToArray();
-        string devicePath = "";
+        string devicePath = "/dev/ttyUSB0";
         foreach (Device? device in allDeviceList)
         {
             if (!IsLinux())
