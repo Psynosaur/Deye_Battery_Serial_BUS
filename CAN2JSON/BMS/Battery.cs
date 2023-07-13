@@ -25,11 +25,8 @@ namespace CAN2JSON.BMS
         public decimal DischargedTotal { get; set; }
         
         public decimal Cycles { get; set; }
-        public BatteryBmsStatuses Status { get; set; }
-
-        public Battery()
-        {
-        }
+        public BatteryBmsStatuses? Status { get; set; }
+        
         public JsonObject ToJson()
         {
             var json = new JsonObject();
@@ -48,7 +45,7 @@ namespace CAN2JSON.BMS
             json["ChargedTotal"] = ChargedTotal;
             json["DischargedTotal"] = DischargedTotal;
             json["Cycles"] = Cycles;
-            json["Status"] = Status.ToJson();
+            json["Status"] = Status is not null ? Status.ToJson() : ""  ;
             return json;
         }
     }
@@ -68,7 +65,8 @@ public class BatteryBmsStatuses
     public JsonObject ToJson()
     {
         var json = new JsonObject();
-        json["=>"] = $"0|1|2 {Status1}, {Status2}, cycles {Status3}, {Status4}, {Status5}, {Status6}, SubSystem {Status7}, {Status8}";
+        string bmsStatus = Status1 == 0 ? "Standby" : Status1 == 1 ? "Charge" : "Discharge";
+        json["=>"] = $"{bmsStatus}, {Status2}, {Status3} cycles, {Status4}, {Status5}, {Status6}, SubSystem {Status7}, {Status8}";
         return json;
     }
 }

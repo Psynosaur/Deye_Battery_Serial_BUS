@@ -10,6 +10,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Threading;
 using CAN2JSON.BMS;
+using HidSharp;
 
 namespace CAN2JSON;
 
@@ -17,23 +18,48 @@ public class SerialDataBackgroundService : BackgroundService
 {
     private readonly ILogger<SerialDataBackgroundService> _logger;
     private readonly SerialPort _serialPort;
-    private readonly Dictionary<string, FrameType> _frames;
     private readonly JsonObject _document;
     private readonly ApplicationInstance _application;
     private readonly BatteryManagementSystem _batteryManagementSystem = new(1);
     private bool _firstFrame = true;
     private bool _batteryCountSet = false;
+    /// <summary>
+    /// Indicates whether the current application is running on Linux.
+    /// </summary>
+    public static bool IsLinux() =>
+        #if TARGET_LINUX && !TARGET_ANDROID
+                    true;
+        #else
+                false;
+        #endif
 
     public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger, ApplicationInstance application)
     {
         _logger = logger;
         _application = application;
         _document = new JsonObject();
-        _serialPort = new SerialPort(true ? "/dev/ttyUSB0" : "COM6", 2000000);
-        _frames = new Dictionary<string, FrameType>
+        _serialPort = new SerialPort(DetermineSerialDeviceName(), 2000000);
+    }
+
+    public string DetermineSerialDeviceName()
+    {
+        var list = DeviceList.Local;
+        var allDeviceList = list.GetAllDevices().ToArray();
+        string devicePath = "";
+        foreach (Device? device in allDeviceList)
         {
-            { "000", new FrameType("000", new JsonObject()) }
-        };
+            if (!IsLinux())
+            {
+                if (device.GetFriendlyName().Equals($"USB-SERIAL CH340 ({device.GetFileSystemName()})"))
+                {
+                    devicePath = device.GetFileSystemName();
+                    break;
+                }
+            }
+            Console.WriteLine(device.GetFileSystemName());
+        }
+
+        return devicePath;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -41,6 +67,9 @@ public class SerialDataBackgroundService : BackgroundService
         try
         {
             _application.Application["json"] = _document;
+            string[] ports = SerialPort.GetPortNames();
+           
+            
             _serialPort.Open();
             _serialPort.DataReceived += SerialPort_DataReceived;
 
@@ -98,7 +127,8 @@ public class SerialDataBackgroundService : BackgroundService
             var canFrame = new CANFrame(id);
             canFrame.UpdateValues(receivedData);
             UpdateCanFrames(canFrame);
-            _batteryManagementSystem.LastUpdate = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);;
+            _batteryManagementSystem.LastUpdate = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);
+            ;
             _application.Application["json"] = _batteryManagementSystem.ToJson();
         }
         catch (Exception ex)
@@ -116,8 +146,9 @@ public class SerialDataBackgroundService : BackgroundService
             _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"Deye slim.xml");
             _firstFrame = false;
         }
+
         StatusUpdateAndAddBatteries(canFrame);
-        
+
         // Update Battery Info
         UpdateBatteryInformation(canFrame);
 
@@ -170,6 +201,7 @@ public class SerialDataBackgroundService : BackgroundService
                 _batteryManagementSystem.Batteries[i].CurrentLimitMax = canFrame.DataInShorts[3] / 1m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals($"040{i}"))
             {
                 _batteryManagementSystem.Batteries[i].Status = new BatteryBmsStatuses
@@ -190,11 +222,12 @@ public class SerialDataBackgroundService : BackgroundService
             {
                 _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInShorts[0] / 1000m;
                 _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInShorts[2] / 1000m;
-                _batteryManagementSystem.Batteries[i].Cycles = _batteryManagementSystem.Batteries[i].ChargedTotal*1000/5120m ;
+                _batteryManagementSystem.Batteries[i].Cycles =
+                    _batteryManagementSystem.Batteries[i].ChargedTotal * 1000 / 5120m;
             }
         }
     }
-    
+
     private void UpdateBmsData(CANFrame canFrame)
     {
         for (int i = 0; i < _batteryManagementSystem.Batteries.Count; i++)
@@ -207,42 +240,46 @@ public class SerialDataBackgroundService : BackgroundService
                 _batteryManagementSystem.BatteryCutoffVoltage = canFrame.DataInShorts[3] / 10m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals("0371"))
             {
                 _batteryManagementSystem.CurrentLimit = canFrame.DataInShorts[0] / 10m;
                 _batteryManagementSystem.DischargeLimit = canFrame.DataInShorts[1] / 10m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals("0355"))
             {
                 _batteryManagementSystem.StateOfCharge = canFrame.DataInShorts[0] / 1m;
                 _batteryManagementSystem.StateOfHealth = canFrame.DataInShorts[1] / 1m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals("0356"))
             {
                 _batteryManagementSystem.Voltage = canFrame.DataInShorts[0] / 100m;
                 _batteryManagementSystem.Amps = canFrame.DataInShorts[1] / -10m;
                 _batteryManagementSystem.Temperature = canFrame.DataInShorts[2] / 10m;
-                _batteryManagementSystem.Watts = _batteryManagementSystem.Voltage * _batteryManagementSystem.Amps/1m;
+                _batteryManagementSystem.Watts = _batteryManagementSystem.Voltage * _batteryManagementSystem.Amps / 1m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals("0361"))
             {
                 _batteryManagementSystem.CellVoltageHigh = canFrame.DataInShorts[0] / 1000m;
                 _batteryManagementSystem.CellVoltageLow = canFrame.DataInShorts[1] / 1000m;
                 _batteryManagementSystem.BmsTemperatureHigh = canFrame.DataInShorts[2] / 10m;
                 _batteryManagementSystem.BmsTemperatureLow = canFrame.DataInShorts[3] / 10m;
-                _batteryManagementSystem.CellVoltageDelta = 
+                _batteryManagementSystem.CellVoltageDelta =
                     canFrame.DataInShorts[0] / 1000m - canFrame.DataInShorts[1] / 1000m;
                 continue;
             }
+
             if (canFrame.FrameId.Equals("0363"))
             {
                 _batteryManagementSystem.BatteryCapacity = canFrame.DataInShorts[0] / 10m;
                 _batteryManagementSystem.FullChargedRestingVoltage = canFrame.DataInShorts[1] / 10m;
             }
-            
         }
     }
 
@@ -270,23 +307,7 @@ public class SerialDataBackgroundService : BackgroundService
             var battery = new Battery();
             batteries.Add(battery);
         }
+
         _batteryManagementSystem.Batteries.AddRange(batteries);
-    }
-}
-
-public class FrameType
-{
-    public string FrameId { get; protected set; }
-    public JsonObject Data { get; set; }
-
-    public FrameType(string frameId, JsonObject data)
-    {
-        FrameId = frameId;
-        Data = data;
-    }
-
-    public JsonObject ToJson()
-    {
-        return Data.AsObject();
     }
 }

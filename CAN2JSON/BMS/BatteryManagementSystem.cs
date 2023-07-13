@@ -26,7 +26,7 @@ public class BatteryManagementSystem
     public decimal BatteryCapacity { get; set; }
     
     public decimal FullChargedRestingVoltage { get; set; }
-    public BmsStatuses Statuses { get; set; }
+    public BmsStatuses? Statuses { get; set; }
 
     public List<Battery> Batteries { get; set; }
 
@@ -110,7 +110,7 @@ public class BatteryManagementSystem
         json["DischargeLimit(A)"] = DischargeLimit;
         json["BatteryCapacity(Ah)"] = BatteryCapacity;
         json["Resting(V)"] = FullChargedRestingVoltage;
-        json["Statuses"] = Statuses.ToJson();
+        json["Statuses"] = Statuses is not null ? Statuses.ToJson() : "";
         var batteriesJsonArray = new JsonArray();
         foreach (var battery in Batteries)
         {
