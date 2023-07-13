@@ -56,7 +56,7 @@ public class SerialDataBackgroundService : BackgroundService
                     break;
                 }
             }
-            Console.WriteLine(device.GetFileSystemName());
+            Console.WriteLine($"File System: {device.GetFileSystemName()}\nFriendly: {device.GetFriendlyName()}\n");
         }
 
         return devicePath;
