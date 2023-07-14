@@ -24,58 +24,58 @@ namespace CAN2JSON.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("BatteryCurrent")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("BatteryVoltage")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<int?>("BmsReadingId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("CellVoltageDelta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("CellVoltageHigh")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("CellVoltageLow")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("ChargedTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(7, 3)");
 
                     b.Property<decimal>("CurrentLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("CurrentLimitMax")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("Cycles")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("DischargedTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(7, 3)");
 
                     b.Property<int>("SlaveNumber")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("StateOfCharge")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("StateOfHealth")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("TemperatureMos")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("TemperatureOne")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("TemperatureTwo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.HasKey("Id");
 
@@ -91,64 +91,64 @@ namespace CAN2JSON.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amps")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("BatteryCapacity")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("BatteryCutoffVoltage")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("BmsTemperatureHigh")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("BmsTemperatureLow")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("CellVoltageDelta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("CellVoltageHigh")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("CellVoltageLow")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(4, 3)");
 
                     b.Property<decimal>("ChargeCurrentLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 0)");
 
                     b.Property<decimal>("ChargeCurrentLimitMax")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 0)");
 
                     b.Property<decimal>("ChargeVoltage")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("CurrentLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("DischargeLimit")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("FullChargedRestingVoltage")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("StateOfCharge")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("StateOfHealth")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("Temperature")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("Voltage")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(3, 1)");
 
                     b.Property<decimal>("Watts")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(5, 1)");
 
                     b.HasKey("Id");
 

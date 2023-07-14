@@ -55,9 +55,11 @@ public class DbBackgroundService : BackgroundService
                     ChargedTotal = battery.ChargedTotal,
                     DischargedTotal = battery.DischargedTotal,
                     Cycles = battery.Cycles,
+                    DateTime = DateTime.UtcNow.ToLocalTime(),
                 };
                 batteryReads.Add(bat);
             }
+            if(bms.Voltage == 0) return;
 
             var bmsReads = new BmsReading()
             {

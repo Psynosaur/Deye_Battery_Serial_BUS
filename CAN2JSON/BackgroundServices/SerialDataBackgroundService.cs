@@ -138,7 +138,7 @@ public class SerialDataBackgroundService : BackgroundService
         if (_firstFrame)
         {
             _batteryManagementSystem.CanFrames.Add(canFrame);
-            _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"Deye slim.xml");
+            _batteryManagementSystem.XmlTemplate = File.ReadAllText(@"CANInformation\Deye slim.xml");
             _firstFrame = false;
         }
 
@@ -214,8 +214,8 @@ public class SerialDataBackgroundService : BackgroundService
 
             if (canFrame.FrameId.Equals($"055{i}"))
             {
-                _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInShorts[0] / 1000m;
-                _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInShorts[2] / 1000m;
+                _batteryManagementSystem.Batteries[i].ChargedTotal = canFrame.DataInInt32[0] / 1000m;
+                _batteryManagementSystem.Batteries[i].DischargedTotal = canFrame.DataInInt32[1] / 1000m;
                 _batteryManagementSystem.Batteries[i].Cycles =
                     _batteryManagementSystem.Batteries[i].ChargedTotal * 1000 / 5120m;
             }
