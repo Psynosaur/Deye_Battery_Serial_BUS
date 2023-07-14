@@ -46,4 +46,6 @@ public class BmsReading
     public decimal BatteryCutoffVoltage { get; set; }
     
     public decimal FullChargedRestingVoltage { get; set; }
+    
+    public List<BatteryReading>? BatteryReadings { get; set; }
 }

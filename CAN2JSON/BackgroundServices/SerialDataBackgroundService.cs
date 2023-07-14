@@ -1,18 +1,11 @@
-﻿using System;
-using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Buffers.Binary;
 using System.Globalization;
 using System.IO.Ports;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using System.Threading;
 using CAN2JSON.BMS;
 using HidSharp;
 
-namespace CAN2JSON;
+namespace CAN2JSON.BackgroundServices;
 
 public class SerialDataBackgroundService : BackgroundService
 {
