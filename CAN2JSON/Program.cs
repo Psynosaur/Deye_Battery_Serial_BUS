@@ -5,6 +5,7 @@ using CAN2JSON.BackgroundServices;
 using CAN2JSON.Data.Context;
 using CAN2JSON.Data.Logic;
 using CAN2JSON.Data.Repository;
+using CAN2JSON.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -22,8 +23,8 @@ builder.Services.AddHostedService<SerialDataBackgroundService>();
 builder.Services.AddHostedService<DbBackgroundService>();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<BmsLogic>();
-builder.Services.AddScoped<BatteryReadingLogic>();
+builder.Services.AddScoped<IBmsLogic, BmsLogic>();
+builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
 builder.Services.AddSingleton<ApplicationInstance>();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 

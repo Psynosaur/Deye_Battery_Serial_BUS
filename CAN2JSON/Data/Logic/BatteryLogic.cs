@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CAN2JSON.Data.Logic;
 
-public class BatteryReadingLogic : IBatteryLogic
+public class BatteryLogic : IBatteryLogic
 {
     private readonly IRepository<BatteryReading> _repository;
 
-    public BatteryReadingLogic(IRepository<BatteryReading> repository) => _repository = repository;
+    public BatteryLogic(IRepository<BatteryReading> repository) => _repository = repository;
 
     public async Task<BatteryReading> GetBatteryReadingById(int id)
     {

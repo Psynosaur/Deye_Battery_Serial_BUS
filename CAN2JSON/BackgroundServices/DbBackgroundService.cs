@@ -8,14 +8,12 @@ public class DbBackgroundService : BackgroundService
 {
     private readonly ApplicationInstance _application;
     private readonly ILogger<DbBackgroundService> _logger;
-    private readonly IRepository<BmsReading> _repository;
-
-    public DbBackgroundService(ILogger<DbBackgroundService> logger, ApplicationInstance application,
-        IRepository<BmsReading> repository)
+    public IServiceProvider Services { get; }
+    public DbBackgroundService(IServiceProvider services,  ILogger<DbBackgroundService> logger, ApplicationInstance application)
     {
         _logger = logger;
         _application = application;
-        _repository = repository;
+        Services = services;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -24,13 +22,13 @@ public class DbBackgroundService : BackgroundService
         {
             _logger.LogInformation("Function executed at: {time}", DateTimeOffset.Now);
             // Call your function here
-            PerformFunction();
+            await PerformFunction(stoppingToken);
 
             await Task.Delay(1000, stoppingToken); // Delay for 1 second
         }
     }
 
-    private void PerformFunction()
+    private async Task PerformFunction(CancellationToken stoppingToken)
     {
         // Implement your function logic here
         Console.WriteLine("Performing function...");
@@ -85,7 +83,15 @@ public class DbBackgroundService : BackgroundService
                 FullChargedRestingVoltage = bms.FullChargedRestingVoltage,
                 BatteryReadings = batteryReads
             };
-            _repository.AddAsync(bmsReads);
+            
+            using (var scope = Services.CreateScope())
+            {
+                var scopedProcessingService = 
+                    scope.ServiceProvider
+                        .GetRequiredService<IRepository<BmsReading>>();
+
+                await scopedProcessingService.AddAsync(bmsReads);
+            }
         }
     }
 }
