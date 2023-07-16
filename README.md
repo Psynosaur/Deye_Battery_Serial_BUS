@@ -4,7 +4,8 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
 
     https://xxx.xxx.xxx.xxx:5035/Candata
 
-![image](.\grafana.png)
+![image](https://github.com/Psynosaur/Deye_Battery_Serial_BUS/assets/26934113/7fbb48f1-b84d-4f8b-b355-161102eb7bfc)
+
 ## TODO 
  - Add frame descriptions - Done
    - Ideally should read CAN Monitor 3000 xml and parse data based on those formats  
