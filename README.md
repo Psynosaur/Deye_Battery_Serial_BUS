@@ -4,6 +4,7 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
 
     https://xxx.xxx.xxx.xxx:5035/Candata
 
+![image](.\grafana.png)
 ## TODO 
  - Add frame descriptions - Done
    - Ideally should read CAN Monitor 3000 xml and parse data based on those formats  
@@ -17,6 +18,7 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
    - Debugging for Frame analysis
    - Data API only for known Frame ids
  - Should open serial device for product and vendor ids, to open on any Operating System
+ - 
 
 
 ### Current Web API CAN data output

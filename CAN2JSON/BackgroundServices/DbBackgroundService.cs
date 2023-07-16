@@ -24,7 +24,7 @@ public class DbBackgroundService : BackgroundService
             // Call your function here
             await PerformFunction(stoppingToken);
 
-            await Task.Delay(1000, stoppingToken); // Delay for 1 second
+            await Task.Delay(2000, stoppingToken); // Delay for 1 second
         }
     }
 
@@ -36,8 +36,9 @@ public class DbBackgroundService : BackgroundService
         if (bms is not null)
         {
             var batteryReads = new List<BatteryReading>();
-            foreach (var battery in bms.Batteries)
+            for (var index = 0; index < bms.Batteries.Count; index++)
             {
+                var battery = bms.Batteries[index];
                 var bat = new BatteryReading
                 {
                     BatteryVoltage = battery.BatteryVoltage,
@@ -55,15 +56,18 @@ public class DbBackgroundService : BackgroundService
                     ChargedTotal = battery.ChargedTotal,
                     DischargedTotal = battery.DischargedTotal,
                     Cycles = battery.Cycles,
-                    DateTime = DateTime.UtcNow.ToLocalTime(),
+                    DateTime = DateTime.UtcNow,
+                    SlaveNumber = index
                 };
                 batteryReads.Add(bat);
             }
+
             if(bms.Voltage == 0) return;
+            if(batteryReads.Count == 0) return;
 
             var bmsReads = new BmsReading()
             {
-                DateTime = DateTime.UtcNow.ToLocalTime(),
+                DateTime = DateTime.UtcNow,
                 ChargeCurrentLimit = bms.ChargeCurrentLimit,
                 ChargeCurrentLimitMax = bms.ChargeCurrentLimitMax,
                 Voltage = bms.Voltage,
@@ -85,15 +89,13 @@ public class DbBackgroundService : BackgroundService
                 FullChargedRestingVoltage = bms.FullChargedRestingVoltage,
                 BatteryReadings = batteryReads
             };
-            
-            using (var scope = Services.CreateScope())
-            {
-                var scopedProcessingService = 
-                    scope.ServiceProvider
-                        .GetRequiredService<IRepository<BmsReading>>();
 
-                await scopedProcessingService.AddAsync(bmsReads);
-            }
+            using var scope = Services.CreateScope();
+            var scopedProcessingService = 
+                scope.ServiceProvider
+                    .GetRequiredService<IRepository<BmsReading>>();
+
+            await scopedProcessingService.AddAsync(bmsReads);
         }
     }
 }
