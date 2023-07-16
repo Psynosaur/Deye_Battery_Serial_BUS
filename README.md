@@ -19,7 +19,7 @@ Grabs CAN Serial Frames in the background and serves an API endpoint for battery
    - Debugging for Frame analysis
    - Data API only for known Frame ids
  - Should open serial device for product and vendor ids, to open on any Operating System
- - 
+ - Draws graphs in Grafana, yay, dashboard file included
 
 
 ### Current Web API CAN data output
