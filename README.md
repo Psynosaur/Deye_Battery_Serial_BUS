@@ -1,26 +1,12 @@
 ## Deye_Battery_CAN_BUS Reader
 
-Grabs CAN Serial Frames in the background and serves an API endpoint for battery and BMS data 
+Grabs CAN Serial Frames from a serial device and serves an API endpoint for battery and BMS data, stores readings in sqlite db
 
+### Dashboard API
     https://xxx.xxx.xxx.xxx:5035/Candata
 
+### Grafana dashboard (file included)
 ![image](https://github.com/Psynosaur/Deye_Battery_Serial_BUS/assets/26934113/7fbb48f1-b84d-4f8b-b355-161102eb7bfc)
-
-## TODO 
- - Add frame descriptions - Done
-   - Ideally should read CAN Monitor 3000 xml and parse data based on those formats  
- - Add setup details for raspberry pi
- - Add RS485 support for Deye batteries
-   - Per cell voltage metrics
-   - ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/db687aa1-d8e1-4c50-9894-56bb3609e6ce)
-
-   - Alarms
- - Split CAN debugging from data api
-   - Debugging for Frame analysis
-   - Data API only for known Frame ids
- - Should open serial device for product and vendor ids, to open on any Operating System
- - Draws graphs in Grafana, yay, dashboard file included
-
 
 ### Current Web API CAN data output
 ```JSON
@@ -121,6 +107,21 @@ Includes CAN BUS tree (XML) of known frame types
 
 
 ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/86d262d1-b2b0-4e49-8af9-236f0f778b98)
+
+## TODO 
+ - Add frame descriptions - Done
+   - Ideally should read CAN Monitor 3000 xml and parse data based on those formats  
+ - Add setup details for raspberry pi
+ - Add RS485 support for Deye batteries
+   - Per cell voltage metrics
+   - ![image](https://github.com/Psynosaur/Deye_Battery_CAN_BUS/assets/26934113/db687aa1-d8e1-4c50-9894-56bb3609e6ce)
+
+   - Alarms
+ - Split CAN debugging from data api
+   - Debugging for Frame analysis
+   - Data API only for known Frame ids
+ - Should open serial device for product and vendor ids, to open on any Operating System
+ - Draws graphs in Grafana, yay, dashboard file included
 
 
 
