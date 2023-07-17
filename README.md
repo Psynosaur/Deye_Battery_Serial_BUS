@@ -6,7 +6,8 @@ Grabs CAN Serial Frames from a serial device and serves an API endpoint for batt
     https://xxx.xxx.xxx.xxx:5035/Candata
 
 ### Grafana dashboard (file included)
-![image](https://github.com/Psynosaur/Deye_Battery_Serial_BUS/assets/26934113/7fbb48f1-b84d-4f8b-b355-161102eb7bfc)
+![image](https://github.com/Psynosaur/Deye_Battery_Serial_BUS/assets/26934113/a1fc1e5e-ac6c-46df-a59c-e368269e233c)
+
 
 ### Current Web API CAN data output
 ```JSON
