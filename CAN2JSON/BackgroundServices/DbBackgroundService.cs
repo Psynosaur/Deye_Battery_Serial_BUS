@@ -8,8 +8,10 @@ public class DbBackgroundService : BackgroundService
 {
     private readonly ApplicationInstance _application;
     private readonly ILogger<DbBackgroundService> _logger;
-    public IServiceProvider Services { get; }
-    public DbBackgroundService(IServiceProvider services,  ILogger<DbBackgroundService> logger, ApplicationInstance application)
+    private IServiceProvider Services { get; }
+
+    public DbBackgroundService(IServiceProvider services, ILogger<DbBackgroundService> logger,
+        ApplicationInstance application)
     {
         _logger = logger;
         _application = application;
@@ -32,14 +34,9 @@ public class DbBackgroundService : BackgroundService
     {
         // Implement your function logic here
         Console.WriteLine("Performing function...");
-        var bms = _application.Application["bms"] as BatteryManagementSystem;
-        if (bms is not null)
+        if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
-            var batteryReads = new List<BatteryReading>();
-            for (var index = 0; index < bms.Batteries.Count; index++)
-            {
-                var battery = bms.Batteries[index];
-                var bat = new BatteryReading
+            var batteryReads = bms.Batteries.Select((battery, index) => new BatteryReading
                 {
                     BatteryVoltage = battery.BatteryVoltage,
                     BatteryCurrent = battery.BatteryCurrent,
@@ -56,18 +53,24 @@ public class DbBackgroundService : BackgroundService
                     ChargedTotal = battery.ChargedTotal,
                     DischargedTotal = battery.DischargedTotal,
                     Cycles = battery.Cycles,
-                    DateTime = DateTime.UtcNow,
+                    Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                     SlaveNumber = index
-                };
-                batteryReads.Add(bat);
-            }
+                })
+                .ToList();
+            if (batteryReads.Any(br =>
+                    br.DischargedTotal == 0 ||
+                    br.ChargedTotal == 0 ||
+                    br.TemperatureOne == 0 ||
+                    br.TemperatureTwo == 0 ||
+                    br.TemperatureMos == 0
+                )) return;
 
-            if(bms.Voltage == 0) return;
-            if(batteryReads.Count == 0) return;
+            if (bms.Voltage == 0) return;
+            if (batteryReads.Count != 2) return;
 
             var bmsReads = new BmsReading()
             {
-                DateTime = DateTime.UtcNow,
+                Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                 ChargeCurrentLimit = bms.ChargeCurrentLimit,
                 ChargeCurrentLimitMax = bms.ChargeCurrentLimitMax,
                 Voltage = bms.Voltage,
@@ -91,7 +94,7 @@ public class DbBackgroundService : BackgroundService
             };
 
             using var scope = Services.CreateScope();
-            var scopedProcessingService = 
+            var scopedProcessingService =
                 scope.ServiceProvider
                     .GetRequiredService<IRepository<BmsReading>>();
 

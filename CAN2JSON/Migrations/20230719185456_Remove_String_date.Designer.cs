@@ -3,6 +3,7 @@ using System;
 using CAN2JSON.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CAN2JSON.Migrations
 {
     [DbContext(typeof(Can2JsonContext))]
-    partial class Can2JsonContextModelSnapshot : ModelSnapshot
+    [Migration("20230719185456_Remove_String_date")]
+    partial class Remove_String_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
@@ -55,9 +58,6 @@ namespace CAN2JSON.Migrations
 
                     b.Property<int>("Date")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("DischargedTotal")
                         .HasColumnType("decimal(7, 3)");
@@ -131,9 +131,6 @@ namespace CAN2JSON.Migrations
 
                     b.Property<int>("Date")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("DischargeLimit")
                         .HasColumnType("decimal(3, 1)");
