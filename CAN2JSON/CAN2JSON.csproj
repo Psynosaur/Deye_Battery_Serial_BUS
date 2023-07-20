@@ -37,9 +37,7 @@
           <Link>Deye Battery Bank.xml</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="bmsstats.sqlite">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <Content Include="bmsstats.sqlite" />
         <Content Update="CANInformation\Deye slim.xml">
           <Link>Deye slim.xml</Link>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
