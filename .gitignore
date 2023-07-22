@@ -3,3 +3,4 @@
 /CAN2JSON/bin/*
 /CAN2JSON/obj/*
 /CAN2JSON/bmsstats.sqlite
+/CAN2JSON/publish/*
