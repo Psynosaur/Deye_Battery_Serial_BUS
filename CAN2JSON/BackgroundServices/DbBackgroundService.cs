@@ -102,6 +102,7 @@ public class DbBackgroundService : BackgroundService
                 FullChargedRestingVoltage = bms.FullChargedRestingVoltage,
                 BatteryReadings = batteryReads
             };
+            
             var bmsInflux = new BmsReadingInflux()
             {
                 Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
@@ -146,6 +147,17 @@ public class DbBackgroundService : BackgroundService
                         SlaveNumber = index
                     })
                     .ToList();
+            if (battReadingsInflux.Any(br =>
+                    br.DischargedTotal == 0 ||
+                    br.ChargedTotal == 0 ||
+                    br.TemperatureOne == 0 ||
+                    br.TemperatureTwo == 0 ||
+                    br.TemperatureMos == 0
+                )) return;
+
+            if (bms.Voltage == 0) return;
+            if (battReadingsInflux.Count != 2) return;
+            
             //SQLite
             using var scope = Services.CreateScope();
             var scopedProcessingService =
@@ -157,7 +169,7 @@ public class DbBackgroundService : BackgroundService
             // Influx DB
             using var writeApi = influxDbClient.GetWriteApi();
             writeApi.WriteMeasurement(Bucket, Org, WritePrecision.Ns, bmsInflux);
-            for (var index = 0; index < bmsReads.BatteryReadings.Count; index++)
+            for (var index = 0; index < battReadingsInflux.Count; index++)
             {
                 var batteryReading = battReadingsInflux[index];
                 writeApi.WriteMeasurement(Bucket, Org, WritePrecision.Ns, batteryReading);
