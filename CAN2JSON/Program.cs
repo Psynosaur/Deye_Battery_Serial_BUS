@@ -21,6 +21,7 @@ builder.Services.AddDbContext<Can2JsonContext>
 
 builder.Services.AddHostedService<SerialDataBackgroundService>();
 builder.Services.AddHostedService<DbBackgroundService>();
+builder.Services.AddHostedService<InfluxDbBackgroundService>();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBmsLogic, BmsLogic>();

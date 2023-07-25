@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Xml;
 
 namespace CAN2JSON.BMS;
 
@@ -26,19 +25,13 @@ public class BatteryManagementSystem
     public decimal BatteryCapacity { get; set; }
     
     public decimal FullChargedRestingVoltage { get; set; }
+    public string? LastUpdate { get; set; }
     public BmsStatuses? Statuses { get; set; }
 
     public List<Battery> Batteries { get; set; }
 
     public List<CANFrame> CanFrames { get; set; }
-
-    public string XmlTemplate { get; set; }
-
-    public JsonNode? XmlJnode { get; set; }
     
-    public string LastUpdate { get; set; }
-
-    // Constructor
     public BatteryManagementSystem(int numBatteries)
     {
         Batteries = new List<Battery>(numBatteries);
@@ -46,7 +39,6 @@ public class BatteryManagementSystem
         Statuses = new BmsStatuses();
     }
 
-    // Methods
     public void UpdateBattery(int batteryIndex, Battery battery)
     {
         CheckBatteryIndex(batteryIndex);
@@ -58,36 +50,7 @@ public class BatteryManagementSystem
         if (batteryIndex < 0 || batteryIndex >= Batteries.Count)
             throw new ArgumentOutOfRangeException(nameof(batteryIndex), "Invalid battery index.");
     }
-
-    public static string ConvertXmlToJson(string xmlContent)
-    {
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(xmlContent);
-
-        string json = JsonSerializer.Serialize(xmlDoc.DocumentElement, new JsonSerializerOptions
-        {
-            WriteIndented = true
-        });
-
-        return json;
-    }
-
-    public void ParseMessageTreeNodes()
-    {
-        XmlJnode = JsonNode.Parse(XmlConvert.XmlToJSON(XmlTemplate));
-    }
-
-    public void FindJsonObjectByPropertyName()
-    {
-        var temp = XmlJnode.AsObject();
-        foreach (var jn in temp)
-        {
-            if(jn.Key.Equals("HeaderTreeNode")) Console.WriteLine($"{jn.Key} {jn.Value}");
-        }
-
-    }
-
-
+    
     public JsonObject ToJson()
     {
         var json = new JsonObject();
@@ -129,12 +92,9 @@ public class BatteryManagementSystem
             var frameJsonObject = document.RootElement.Clone();
             canFramesJsonArray.Add(frameJsonObject);
         }
-        // json["CanFrames"] = canFramesJsonArray;
+        json["CanFrames"] = canFramesJsonArray;
         json["date"] = LastUpdate;
-        // ParseMessageTreeNodes();
-        // FindJsonObjectByPropertyName();
-        // json["XmlTemplate"] = XmlJnode;
-
+        
         return json;
     }
 }

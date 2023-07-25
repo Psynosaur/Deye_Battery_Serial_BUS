@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using InfluxDB.Client.Core;
-using Microsoft.EntityFrameworkCore;
 
-namespace CAN2JSON.Data.Models;
+namespace CAN2JSON.Data.Measurements;
 [Measurement("BatteryReading")]
-public class BatteryReadingInFlux
+public class BatteryMeasurement
 {
     [Key] public int Id { get; set; }
     [Column(IsTimestamp = true)] public int Date { get; set; }

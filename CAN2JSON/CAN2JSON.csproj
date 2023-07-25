@@ -21,7 +21,7 @@
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="System.IO.Ports" Version="7.0.0" />
-        <PackageReference Include="InfluxDB.Client"  Version="1.0.0"/>
+        <PackageReference Include="InfluxDB.Client" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
