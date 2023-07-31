@@ -5,7 +5,6 @@ namespace CAN2JSON.Data.Measurements;
 [Measurement("BatteryReading")]
 public class BatteryMeasurement
 {
-    [Key] public int Id { get; set; }
     [Column(IsTimestamp = true)] public int Date { get; set; }
     [Column("SlaveNumber", IsTag = true)] public int SlaveNumber { get; set; }
     [Column("BatteryVoltage")] public decimal BatteryVoltage { get; set; }

@@ -26,7 +26,7 @@ public class InfluxDbBackgroundService : BackgroundService
         var bucket = _configuration["InfluxDb:Bucket"];
         var org = _configuration["InfluxDb:Org"];
         var url = _configuration["InfluxDb:Url"];
-        if (bucket is null || org is null) throw new InvalidOperationException();
+        if (bucket is null || org is null || url is null) throw new InvalidOperationException();
         var client =
             InfluxDBClientFactory.Create(url, _configuration["InfluxDb:Token"]?.ToCharArray());
         while (!stoppingToken.IsCancellationRequested)

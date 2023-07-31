@@ -61,7 +61,6 @@ public class SerialDataBackgroundService : BackgroundService
         {
             _application.Application["json"] = _document;
             _application.Application["bms"] = _batteryManagementSystem;
-            string[] ports = SerialPort.GetPortNames();
            
             
             _serialPort.Open();

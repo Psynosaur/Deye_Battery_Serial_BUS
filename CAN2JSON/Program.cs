@@ -22,8 +22,9 @@ builder.Services.AddDbContext<Can2JsonContext>
 builder.Services.AddHostedService<SerialDataBackgroundService>();
 builder.Services.AddHostedService<DbBackgroundService>();
 builder.Services.AddHostedService<InfluxDbBackgroundService>();
+var batteryRs485 = builder.Configuration.GetValue<string>("BatterySerial:RS485");
+if(batteryRs485 is "True") builder.Services.AddHostedService<Rs485BackgroundService>();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddScoped<IBmsLogic, BmsLogic>();
 builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
 builder.Services.AddSingleton<ApplicationInstance>();
