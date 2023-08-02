@@ -98,7 +98,7 @@ public class Rs485BackgroundService : IHostedService, IDisposable
 
         received = await ReadSerialResponse(_batteryTwoSerial);
         batteryReadings[1] = ProcessResponse(received, 1);
-        
+
         _application.Application["jsonSerial"] = ToJsonSerial(batteryReadings);
 
         // Add influx measurement
@@ -156,28 +156,27 @@ public class Rs485BackgroundService : IHostedService, IDisposable
 
     public BatteryCellMeasurement ProcessResponse(byte[] bytes, int slaveNumber)
     {
-        var dataOffset = 12;
+        var dataOffset = 13;
         var cellMeasurment = new BatteryCellMeasurement();
         if (bytes.Length == 81)
         {
-            cellMeasurment.MinPos = BitConverter.ToInt16(new[] { bytes[dataOffset - 2], bytes[dataOffset - 1] });
-            cellMeasurment.Cell01 = BitConverter.ToInt16(new[] { bytes[dataOffset + 2], bytes[dataOffset + 3] });
-            cellMeasurment.Cell02 = BitConverter.ToInt16(new[] { bytes[dataOffset + 4], bytes[dataOffset + 5] });
-            cellMeasurment.Cell03 = BitConverter.ToInt16(new[] { bytes[dataOffset + 6], bytes[dataOffset + 7] });
-            cellMeasurment.Cell04 = BitConverter.ToInt16(new[] { bytes[dataOffset + 8], bytes[dataOffset + 9] });
-            cellMeasurment.Cell05 = BitConverter.ToInt16(new[] { bytes[dataOffset + 10], bytes[dataOffset + 11] });
-            cellMeasurment.Cell06 = BitConverter.ToInt16(new[] { bytes[dataOffset + 12], bytes[dataOffset + 13] });
-            cellMeasurment.Cell07 = BitConverter.ToInt16(new[] { bytes[dataOffset + 14], bytes[dataOffset + 15] });
-            cellMeasurment.Cell08 = BitConverter.ToInt16(new[] { bytes[dataOffset + 16], bytes[dataOffset + 17] });
-            cellMeasurment.Cell09 = BitConverter.ToInt16(new[] { bytes[dataOffset + 18], bytes[dataOffset + 19] });
-            cellMeasurment.Cell10 = BitConverter.ToInt16(new[] { bytes[dataOffset + 20], bytes[dataOffset + 21] });
-            cellMeasurment.Cell11 = BitConverter.ToInt16(new[] { bytes[dataOffset + 22], bytes[dataOffset + 23] });
-            cellMeasurment.Cell12 = BitConverter.ToInt16(new[] { bytes[dataOffset + 24], bytes[dataOffset + 25] });
-            cellMeasurment.Cell13 = BitConverter.ToInt16(new[] { bytes[dataOffset + 26], bytes[dataOffset + 27] });
-            cellMeasurment.Cell14 = BitConverter.ToInt16(new[] { bytes[dataOffset + 28], bytes[dataOffset + 29] });
-            cellMeasurment.Cell15 = BitConverter.ToInt16(new[] { bytes[dataOffset + 30], bytes[dataOffset + 31] });
-            // This one has bytes at the end and front of the data array, rs485 manufacturer tool verified this
-            cellMeasurment.Cell16 = BitConverter.ToInt16(new[] { bytes[dataOffset + 32], bytes[dataOffset + 1] });
+            cellMeasurment.MinPos = BitConverter.ToInt16(new[] { bytes[dataOffset - 3], bytes[dataOffset - 2] });
+            cellMeasurment.Cell01 = BitConverter.ToInt16(new[] { bytes[dataOffset + 1]  ,bytes[dataOffset]    });
+            cellMeasurment.Cell02 = BitConverter.ToInt16(new[] { bytes[dataOffset + 3]  ,bytes[dataOffset + 2]});
+            cellMeasurment.Cell03 = BitConverter.ToInt16(new[] { bytes[dataOffset + 5]  ,bytes[dataOffset + 4]});
+            cellMeasurment.Cell04 = BitConverter.ToInt16(new[] { bytes[dataOffset + 7]  ,bytes[dataOffset + 6]});
+            cellMeasurment.Cell05 = BitConverter.ToInt16(new[] { bytes[dataOffset + 9]  ,bytes[dataOffset + 8]});
+            cellMeasurment.Cell06 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 11],bytes[dataOffset + 10]});
+            cellMeasurment.Cell07 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 13],bytes[dataOffset + 12]});
+            cellMeasurment.Cell08 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 15],bytes[dataOffset + 14]});
+            cellMeasurment.Cell09 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 17],bytes[dataOffset + 16]});
+            cellMeasurment.Cell10 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 19],bytes[dataOffset + 18]});
+            cellMeasurment.Cell11 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 21],bytes[dataOffset + 20]});
+            cellMeasurment.Cell12 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 23],bytes[dataOffset + 22]});
+            cellMeasurment.Cell13 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 25],bytes[dataOffset + 24]});
+            cellMeasurment.Cell14 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 27],bytes[dataOffset + 26]});
+            cellMeasurment.Cell15 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 29],bytes[dataOffset + 28]});
+            cellMeasurment.Cell16 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 31],bytes[dataOffset + 30]});
             cellMeasurment.Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             cellMeasurment.SlaveNumber = slaveNumber;
         }
