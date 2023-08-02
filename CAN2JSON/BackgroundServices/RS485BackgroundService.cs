@@ -161,22 +161,22 @@ public class Rs485BackgroundService : IHostedService, IDisposable
         if (bytes.Length == 81)
         {
             cellMeasurment.MinPos = BitConverter.ToInt16(new[] { bytes[dataOffset - 3], bytes[dataOffset - 2] });
-            cellMeasurment.Cell01 = BitConverter.ToInt16(new[] { bytes[dataOffset + 1]  ,bytes[dataOffset]    });
-            cellMeasurment.Cell02 = BitConverter.ToInt16(new[] { bytes[dataOffset + 3]  ,bytes[dataOffset + 2]});
-            cellMeasurment.Cell03 = BitConverter.ToInt16(new[] { bytes[dataOffset + 5]  ,bytes[dataOffset + 4]});
-            cellMeasurment.Cell04 = BitConverter.ToInt16(new[] { bytes[dataOffset + 7]  ,bytes[dataOffset + 6]});
-            cellMeasurment.Cell05 = BitConverter.ToInt16(new[] { bytes[dataOffset + 9]  ,bytes[dataOffset + 8]});
-            cellMeasurment.Cell06 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 11],bytes[dataOffset + 10]});
-            cellMeasurment.Cell07 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 13],bytes[dataOffset + 12]});
-            cellMeasurment.Cell08 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 15],bytes[dataOffset + 14]});
-            cellMeasurment.Cell09 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 17],bytes[dataOffset + 16]});
-            cellMeasurment.Cell10 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 19],bytes[dataOffset + 18]});
-            cellMeasurment.Cell11 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 21],bytes[dataOffset + 20]});
-            cellMeasurment.Cell12 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 23],bytes[dataOffset + 22]});
-            cellMeasurment.Cell13 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 25],bytes[dataOffset + 24]});
-            cellMeasurment.Cell14 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 27],bytes[dataOffset + 26]});
-            cellMeasurment.Cell15 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 29],bytes[dataOffset + 28]});
-            cellMeasurment.Cell16 = BitConverter.ToInt16(new[] {  bytes[dataOffset + 31],bytes[dataOffset + 30]});
+            cellMeasurment.Cell01 = BitConverter.ToInt16(new[] { bytes[dataOffset + 1], bytes[dataOffset] });
+            cellMeasurment.Cell02 = BitConverter.ToInt16(new[] { bytes[dataOffset + 3], bytes[dataOffset + 2] });
+            cellMeasurment.Cell03 = BitConverter.ToInt16(new[] { bytes[dataOffset + 5], bytes[dataOffset + 4] });
+            cellMeasurment.Cell04 = BitConverter.ToInt16(new[] { bytes[dataOffset + 7], bytes[dataOffset + 6] });
+            cellMeasurment.Cell05 = BitConverter.ToInt16(new[] { bytes[dataOffset + 9], bytes[dataOffset + 8] });
+            cellMeasurment.Cell06 = BitConverter.ToInt16(new[] { bytes[dataOffset + 11], bytes[dataOffset + 10] });
+            cellMeasurment.Cell07 = BitConverter.ToInt16(new[] { bytes[dataOffset + 13], bytes[dataOffset + 12] });
+            cellMeasurment.Cell08 = BitConverter.ToInt16(new[] { bytes[dataOffset + 15], bytes[dataOffset + 14] });
+            cellMeasurment.Cell09 = BitConverter.ToInt16(new[] { bytes[dataOffset + 17], bytes[dataOffset + 16] });
+            cellMeasurment.Cell10 = BitConverter.ToInt16(new[] { bytes[dataOffset + 19], bytes[dataOffset + 18] });
+            cellMeasurment.Cell11 = BitConverter.ToInt16(new[] { bytes[dataOffset + 21], bytes[dataOffset + 20] });
+            cellMeasurment.Cell12 = BitConverter.ToInt16(new[] { bytes[dataOffset + 23], bytes[dataOffset + 22] });
+            cellMeasurment.Cell13 = BitConverter.ToInt16(new[] { bytes[dataOffset + 25], bytes[dataOffset + 24] });
+            cellMeasurment.Cell14 = BitConverter.ToInt16(new[] { bytes[dataOffset + 27], bytes[dataOffset + 26] });
+            cellMeasurment.Cell15 = BitConverter.ToInt16(new[] { bytes[dataOffset + 29], bytes[dataOffset + 28] });
+            cellMeasurment.Cell16 = BitConverter.ToInt16(new[] { bytes[dataOffset + 31], bytes[dataOffset + 30] });
             cellMeasurment.Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             cellMeasurment.SlaveNumber = slaveNumber;
         }
