@@ -18,6 +18,7 @@ public partial class Can2JsonContext : DbContext
 
     public virtual DbSet<BmsReading> BmsReadings { get; set; } = null!;
     public virtual DbSet<BatteryReading> BatteryReadings { get; set; } = null!;
+    public virtual DbSet<BatteryCellReading> BatteryCellReadings { get; set; } = null!;
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

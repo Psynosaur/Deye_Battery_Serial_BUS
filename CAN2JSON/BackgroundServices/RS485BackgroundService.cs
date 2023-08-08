@@ -2,13 +2,11 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using CAN2JSON.Data.Measurements;
-using InfluxDB.Client;
-using InfluxDB.Client.Api.Domain;
 using Task = System.Threading.Tasks.Task;
 
 namespace CAN2JSON.BackgroundServices;
 
-public class Rs485BackgroundService : IHostedService, IDisposable
+public class Rs485BackgroundService : BackgroundService
 {
     private readonly ILogger<Rs485BackgroundService> _logger;
     private readonly SerialPort _batteryOneSerial;
@@ -17,7 +15,6 @@ public class Rs485BackgroundService : IHostedService, IDisposable
     private readonly ApplicationInstance _application;
     private readonly IConfiguration _configuration;
     private readonly byte[] _sendData = { 0xAA, 0x55, 0x01, 0x04, 0x00, 0x03, 0x70, 0x0D, 0x0A };
-    private readonly CancellationTokenSource _cancellationTokenSource;
 
     public Rs485BackgroundService(ILogger<Rs485BackgroundService> logger, ApplicationInstance application,
         IConfiguration configuration)
@@ -28,63 +25,42 @@ public class Rs485BackgroundService : IHostedService, IDisposable
         _document = new JsonObject();
         _batteryOneSerial = new SerialPort();
         _batteryTwoSerial = new SerialPort();
-        _cancellationTokenSource = new CancellationTokenSource();
     }
-
-    public Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Task.Run(() => BackgroundTask(_cancellationTokenSource.Token), cancellationToken);
-        return Task.CompletedTask;
-    }
+        _application.Application["jsonSerial"] = _document;
+        var batteryReadings = new List<BatteryCellMeasurement>(2);
+        batteryReadings.Add(new BatteryCellMeasurement());
+        batteryReadings.Add(new BatteryCellMeasurement());
+        var batt1Port = _configuration["BatterySerial:Battery1"];
+        var batt2Port = _configuration["BatterySerial:Battery2"];
+        var interval = int.Parse(_configuration["BatterySerial:Interval"] ?? "5000");
+        if (batt1Port is null || batt2Port is null)
+            throw new InvalidOperationException();
 
-    private async Task BackgroundTask(CancellationToken cancellationToken)
-    {
-        try
+        _batteryOneSerial.BaudRate = 9600;
+        _batteryTwoSerial.BaudRate = 9600;
+        _batteryOneSerial.PortName = batt1Port;
+        _batteryTwoSerial.PortName = batt2Port;
+        _batteryOneSerial.ReadTimeout = 100;
+        _batteryTwoSerial.ReadTimeout = 100;
+
+        _batteryOneSerial.Open();
+        _batteryTwoSerial.Open();
+        
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _application.Application["jsonSerial"] = _document;
-            var batteryReadings = new List<BatteryCellMeasurement>(2);
-            batteryReadings.Add(new BatteryCellMeasurement());
-            batteryReadings.Add(new BatteryCellMeasurement());
-            var bucket = _configuration["InfluxDb:CellVoltageBucket"];
-            var org = _configuration["InfluxDb:Org"];
-            var url = _configuration["InfluxDb:Url"];
-            var batt1Port = _configuration["BatterySerial:Battery1"];
-            var batt2Port = _configuration["BatterySerial:Battery2"];
-            var interval = int.Parse(_configuration["BatterySerial:Interval"] ?? "5000");
-            if (bucket is null || org is null || url is null || batt1Port is null || batt2Port is null)
-                throw new InvalidOperationException();
-            var client =
-                InfluxDBClientFactory.Create(url, _configuration["InfluxDb:Token"]?.ToCharArray());
+            await SerialWriteReadMeasurement(stoppingToken, batteryReadings);
 
-            _batteryOneSerial.BaudRate = 9600;
-            _batteryTwoSerial.BaudRate = 9600;
-            _batteryOneSerial.PortName = batt1Port;
-            _batteryTwoSerial.PortName = batt2Port;
-            _batteryOneSerial.ReadTimeout = 100;
-            _batteryTwoSerial.ReadTimeout = 100;
-
-            _batteryOneSerial.Open();
-            _batteryTwoSerial.Open();
-
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await SerialWriteReadMeasurement(cancellationToken, batteryReadings, client, bucket, org);
-                // Wait for 2 seconds before sending data again
-                await Task.Delay(interval, cancellationToken);
-            }
-
-            _batteryOneSerial.Close();
-            _batteryTwoSerial.Close();
+            await Task.Delay(interval, stoppingToken);
         }
-        catch (Exception ex)
-        {
-            _logger.LogError("Error: " + ex.Message);
-        }
+        
+        _batteryOneSerial.Close();
+        _batteryTwoSerial.Close();
     }
-
+    
     private async Task SerialWriteReadMeasurement(CancellationToken cancellationToken,
-        List<BatteryCellMeasurement> batteryReadings,
-        InfluxDBClient client, string bucket, string org)
+        List<BatteryCellMeasurement> batteryReadings)
     {
         // Send data to the serial device
         _batteryOneSerial.Write(_sendData, 0, _sendData.Length);
@@ -99,15 +75,10 @@ public class Rs485BackgroundService : IHostedService, IDisposable
         received = await ReadSerialResponse(_batteryTwoSerial);
         batteryReadings[1] = ProcessResponse(received, 1);
 
+        // Controller output
         _application.Application["jsonSerial"] = ToJsonSerial(batteryReadings);
-
-        // Add influx measurement
-        using var writeApi = client.GetWriteApi();
-        foreach (var batteryCellMeasurment in batteryReadings)
-        {
-            writeApi.WriteMeasurement(bucket, org,
-                WritePrecision.Ns, batteryCellMeasurment);
-        }
+        // BatteryCellReading list, for db workers to map and store 
+        _application.Application["rs485"] = batteryReadings;
     }
 
     private async Task<byte[]> ReadSerialResponse(SerialPort serialPort)
@@ -138,22 +109,7 @@ public class Rs485BackgroundService : IHostedService, IDisposable
         json["BatteryCells"] = serialArray;
         return json;
     }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _cancellationTokenSource.Cancel();
-        _batteryOneSerial.Close();
-        _batteryTwoSerial.Close();
-        return Task.CompletedTask;
-    }
-
-    public void Dispose()
-    {
-        _batteryOneSerial?.Dispose();
-        _batteryTwoSerial?.Dispose();
-        _cancellationTokenSource?.Dispose();
-    }
-
+    
     public BatteryCellMeasurement ProcessResponse(byte[] bytes, int slaveNumber)
     {
         var dataOffset = 13;

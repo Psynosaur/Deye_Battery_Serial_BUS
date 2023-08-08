@@ -19,15 +19,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<Can2JsonContext>
     (options => options.UseSqlite("Name=BMSStats"));
 
+// Background workers 
 builder.Services.AddHostedService<SerialDataBackgroundService>();
-builder.Services.AddHostedService<DbBackgroundService>();
+builder.Services.AddHostedService<SqliteDbBackgroundService>();
 builder.Services.AddHostedService<InfluxDbBackgroundService>();
+
+// Optional RS485
 var batteryRs485 = builder.Configuration.GetValue<string>("BatterySerial:RS485");
 if(batteryRs485 is "True") builder.Services.AddHostedService<Rs485BackgroundService>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IBmsLogic, BmsLogic>();
-builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
+
+/* These are for when we'd like to do more CRUD related actions with our battery readings...
+ * builder.Services.AddScoped<IBmsLogic, BmsLogic>();
+ * builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
+ */
+
+// This is our concurrent dictionary for accessing our latest serial readings from our workers
 builder.Services.AddSingleton<ApplicationInstance>();
+
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 
@@ -42,7 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// app.UseAuthorization();
 
 app.MapControllers();
 
@@ -50,5 +59,5 @@ app.Run();
 
 public class ApplicationInstance {
 
-    public ConcurrentDictionary<string, object> Application { get; } = new ConcurrentDictionary<string, object>();
+    public ConcurrentDictionary<string, object> Application { get; } = new();
 }

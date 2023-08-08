@@ -51,6 +51,12 @@
     },
     {
       "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "timeseries",
       "name": "Time series",
       "version": ""
@@ -79,6 +85,243 @@
   "links": [],
   "liveNow": false,
   "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 28,
+      "interval": "1s",
+      "maxDataPoints": 80000,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.Batteries[0].Status.=>",
+              "name": "Battery 1",
+              "type": "string"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": ""
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 29,
+      "interval": "1s",
+      "maxDataPoints": 80000,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.Batteries[1].Status.=>",
+              "language": "jsonpath",
+              "name": "Battery 2",
+              "type": "string"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": ""
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-json-datasource",
+        "uid": "${DS_JSON_API}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 30,
+      "interval": "1s",
+      "maxDataPoints": 80000,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.0.2",
+      "targets": [
+        {
+          "cacheDurationSeconds": 300,
+          "datasource": {
+            "type": "marcusolsson-json-datasource",
+            "uid": "${DS_JSON_API}"
+          },
+          "fields": [
+            {
+              "jsonPath": "$.date",
+              "language": "jsonpath",
+              "name": "Last CAN frame",
+              "type": "string"
+            }
+          ],
+          "method": "GET",
+          "queryParams": "",
+          "refId": "A",
+          "urlPath": ""
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 31,
+      "panels": [],
+      "title": "Graphs",
+      "type": "row"
+    },
     {
       "datasource": {
         "type": "marcusolsson-json-datasource",
@@ -126,7 +369,7 @@
         "h": 6,
         "w": 5,
         "x": 0,
-        "y": 0
+        "y": 6
       },
       "id": 17,
       "interval": "1s",
@@ -229,7 +472,7 @@
         "h": 6,
         "w": 6,
         "x": 5,
-        "y": 0
+        "y": 6
       },
       "id": 13,
       "interval": "1s",
@@ -343,7 +586,7 @@
         "h": 6,
         "w": 3,
         "x": 11,
-        "y": 0
+        "y": 6
       },
       "hideTimeOverride": true,
       "id": 11,
@@ -573,7 +816,7 @@
         "h": 6,
         "w": 5,
         "x": 14,
-        "y": 0
+        "y": 6
       },
       "hideTimeOverride": true,
       "id": 9,
@@ -585,9 +828,7 @@
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "/.*/",
           "values": true
         },
@@ -687,7 +928,7 @@
         "h": 6,
         "w": 5,
         "x": 19,
-        "y": 0
+        "y": 6
       },
       "id": 15,
       "options": {
@@ -767,7 +1008,6 @@
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "series",
-            "axisLabel": "",
             "axisPlacement": "right",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -797,7 +1037,7 @@
               "mode": "line"
             }
           },
-          "decimals": 3,
+          "decimals": 4,
           "mappings": [
             {
               "options": {
@@ -846,16 +1086,209 @@
           },
           "unit": "mvolt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell01 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 01"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell02 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 02"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell03 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 03"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell04 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 04"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell05 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 05"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell06 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 06"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell07 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 07"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell08 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 08"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell09 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 09"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell10 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell11 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell12 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell13 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell14 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell15 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell16 0"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 16"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 6
+        "y": 12
       },
       "id": 26,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
           "calcs": [],
@@ -874,7 +1307,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"cellVoltages\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryCellReading\" and r.BatteryNumber == \"0\")\r\n  |> filter(fn: (r) => r._field == \"Cell01\" or r._field == \"Cell02\" or r._field == \"Cell03\" or r._field == \"Cell04\" or r._field == \"Cell05\" or r._field == \"Cell06\" or r._field == \"Cell07\" or r._field == \"Cell08\" \r\n                    or r._field == \"Cell09\" or r._field == \"Cell10\" or r._field == \"Cell11\" or r._field == \"Cell12\" or r._field == \"Cell13\" or r._field == \"Cell14\" or r._field == \"Cell15\" or r._field == \"Cell16\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cellVoltages\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryCellReading\" and r.BatteryNumber == \"0\")\r\n  |> filter(fn: (r) => r._field == \"Cell01\" or r._field == \"Cell02\" or r._field == \"Cell03\" or r._field == \"Cell04\" or r._field == \"Cell05\" or r._field == \"Cell06\" or r._field == \"Cell07\" or r._field == \"Cell08\" \r\n                    or r._field == \"Cell09\" or r._field == \"Cell10\" or r._field == \"Cell11\" or r._field == \"Cell12\" or r._field == \"Cell13\" or r._field == \"Cell14\" or r._field == \"Cell15\" or r._field == \"Cell16\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1054,10 +1487,10 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 6
+        "y": 12
       },
       "id": 4,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
           "calcs": [],
@@ -1076,7 +1509,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageHigh\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageHigh\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -1085,7 +1518,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageLow\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageLow\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -1137,7 +1570,7 @@
               "mode": "line"
             }
           },
-          "decimals": 3,
+          "decimals": 4,
           "mappings": [
             {
               "options": {
@@ -1186,16 +1619,209 @@
           },
           "unit": "mvolt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell01 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 01"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell02 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 02"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell03 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 03"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell04 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 04"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell05 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 05"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell06 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 06"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell07 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 07"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell08 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 08"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell09 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 09"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell10 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell11 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell12 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell13 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell14 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell15 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Cell16 1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cell 16"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 6
+        "y": 12
       },
       "id": 27,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
           "calcs": [],
@@ -1214,7 +1840,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"cellVoltages\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryCellReading\" and r.BatteryNumber == \"1\")\r\n  |> filter(fn: (r) => r._field == \"Cell01\" or r._field == \"Cell02\" or r._field == \"Cell03\" or r._field == \"Cell04\" or r._field == \"Cell05\" or r._field == \"Cell06\" or r._field == \"Cell07\" or r._field == \"Cell08\" \r\n                    or r._field == \"Cell09\" or r._field == \"Cell10\" or r._field == \"Cell11\" or r._field == \"Cell12\" or r._field == \"Cell13\" or r._field == \"Cell14\" or r._field == \"Cell15\" or r._field == \"Cell16\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cellVoltages\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryCellReading\" and r.BatteryNumber == \"1\")\r\n  |> filter(fn: (r) => r._field == \"Cell01\" or r._field == \"Cell02\" or r._field == \"Cell03\" or r._field == \"Cell04\" or r._field == \"Cell05\" or r._field == \"Cell06\" or r._field == \"Cell07\" or r._field == \"Cell08\" \r\n                    or r._field == \"Cell09\" or r._field == \"Cell10\" or r._field == \"Cell11\" or r._field == \"Cell12\" or r._field == \"Cell13\" or r._field == \"Cell14\" or r._field == \"Cell15\" or r._field == \"Cell16\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1452,23 +2078,18 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 14
+        "y": 20
       },
       "id": 23,
-      "interval": "1s",
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
-        "timezone": [
-          "browser"
-        ],
+        "timezone": ["browser"],
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -1480,7 +2101,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Watts\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Watts\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -1489,7 +2110,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryCurrent\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryCurrent\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         },
         {
@@ -1498,7 +2119,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryVoltage\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryVoltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "C"
         }
       ],
@@ -1757,23 +2378,18 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 14
+        "y": 20
       },
       "id": 25,
-      "interval": "1m",
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
-        "timezone": [
-          "browser"
-        ],
+        "timezone": ["browser"],
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -1785,7 +2401,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Amps\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Amps\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -1794,7 +2410,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryCurrent\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryCurrent\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -1812,9 +2428,7 @@
             },
             "mode": "binary",
             "reduce": {
-              "include": [
-                "B2Curr"
-              ],
+              "include": ["B2Curr"],
               "reducer": "sum"
             },
             "replaceFields": false
@@ -2004,15 +2618,13 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 14
+        "y": 20
       },
       "id": 7,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2028,7 +2640,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"CurrentLimit\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"CurrentLimit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "BMS"
         },
         {
@@ -2037,7 +2649,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CurrentLimit\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CurrentLimit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -2113,7 +2725,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "yellow",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -2131,7 +2743,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-green",
+                  "fixedColor": "dark-green",
                   "mode": "fixed"
                 }
               }
@@ -2140,7 +2752,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "DischargedTotal {SlaveNumber=\"0\", name=\"BatteryReading\"}"
+              "options": "DischargedTotal 0"
             },
             "properties": [
               {
@@ -2152,7 +2764,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "DischargedTotal {SlaveNumber=\"1\", name=\"BatteryReading\"}"
+              "options": "DischargedTotal 1"
             },
             "properties": [
               {
@@ -2164,7 +2776,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ChargedTotal {SlaveNumber=\"0\", name=\"BatteryReading\"}"
+              "options": "ChargedTotal 0"
             },
             "properties": [
               {
@@ -2176,12 +2788,57 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ChargedTotal {SlaveNumber=\"1\", name=\"BatteryReading\"}"
+              "options": "ChargedTotal 1"
             },
             "properties": [
               {
                 "id": "displayName",
                 "value": "B2 CHT"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B2 DCHT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B1 CHT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B2 CHT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
               }
             ]
           }
@@ -2191,11 +2848,10 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 22
+        "y": 28
       },
       "id": 19,
-      "interval": "1m",
-      "maxDataPoints": 10000,
+      "interval": "4s",
       "options": {
         "legend": {
           "calcs": [],
@@ -2203,9 +2859,7 @@
           "placement": "bottom",
           "showLegend": true
         },
-        "timezone": [
-          "browser"
-        ],
+        "timezone": ["browser"],
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2217,7 +2871,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"DischargedTotal\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"DischargedTotal\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -2226,13 +2880,14 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"ChargedTotal\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"ChargedTotal\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
       "title": "Discharge/charge totals and cycles",
       "transformations": [
         {
+          "disabled": true,
           "id": "calculateField",
           "options": {
             "alias": "Cycles Batt 1",
@@ -2240,18 +2895,17 @@
               "left": "ChargedTotal {SlaveNumber=\"0\", name=\"BatteryReading\"}",
               "operator": "/",
               "reducer": "sum",
-              "right": "4.608"
+              "right": "4.352"
             },
             "mode": "binary",
             "reduce": {
-              "include": [
-                "B1CHTot"
-              ],
+              "include": ["B1CHTot"],
               "reducer": "sum"
             }
           }
         },
         {
+          "disabled": true,
           "id": "calculateField",
           "options": {
             "alias": "Cycles Batt 2",
@@ -2259,7 +2913,7 @@
               "left": "ChargedTotal {SlaveNumber=\"1\", name=\"BatteryReading\"}",
               "operator": "/",
               "reducer": "sum",
-              "right": "4.608"
+              "right": "4.352"
             },
             "mode": "binary",
             "reduce": {
@@ -2268,6 +2922,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2395,15 +3050,13 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 22
+        "y": 28
       },
       "id": 3,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2419,7 +3072,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"StateOfCharge\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"StateOfCharge\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -2428,7 +3081,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"StateOfCharge\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"StateOfCharge\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -2507,7 +3160,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "BMS CD V"
+                "value": "BMS"
               }
             ]
           },
@@ -2519,7 +3172,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "B1 CD V"
+                "value": "B1"
               }
             ]
           },
@@ -2531,7 +3184,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "B2 CD V"
+                "value": "B2"
               }
             ]
           },
@@ -2553,7 +3206,22 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "B1 CD V"
+              "options": "B2 CD V"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B1"
             },
             "properties": [
               {
@@ -2568,13 +3236,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "B2 CD V"
+              "options": "B2"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "green",
+                  "fixedColor": "purple",
                   "mode": "fixed"
                 }
               }
@@ -2586,16 +3254,13 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 22
+        "y": 28
       },
       "id": 5,
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean"
-          ],
+          "calcs": ["last", "mean"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2611,7 +3276,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageDelta\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageDelta\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -2620,7 +3285,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageDelta\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"CellVoltageDelta\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -2677,8 +3342,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2752,17 +3416,14 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 30
+        "y": 36
       },
       "hideTimeOverride": true,
       "id": 1,
-      "interval": "10s",
-      "maxDataPoints": 20301,
+      "interval": "4s",
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -2778,7 +3439,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Voltage\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BmsReading\")\r\n  |> filter(fn: (r) => r._field == \"Voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -2787,7 +3448,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryVoltage\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"BatteryVoltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         }
       ],
@@ -2843,8 +3504,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2933,11 +3593,10 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 30
+        "y": 36
       },
       "id": 21,
-      "interval": "1m",
-      "maxDataPoints": 10000,
+      "interval": "4s",
       "options": {
         "legend": {
           "calcs": [],
@@ -2945,9 +3604,7 @@
           "placement": "bottom",
           "showLegend": true
         },
-        "timezone": [
-          "browser"
-        ],
+        "timezone": ["browser"],
         "tooltip": {
           "mode": "multi",
           "sort": "none"
@@ -2959,7 +3616,7 @@
             "type": "influxdb",
             "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureMos\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureMos\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         },
         {
@@ -2968,7 +3625,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureOne\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureOne\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "B"
         },
         {
@@ -2977,7 +3634,7 @@
             "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
-          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureTwo\")\r\n  |> aggregateWindow(every: 4s, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"bmsReadings\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._measurement == \"BatteryReading\")\r\n  |> filter(fn: (r) => r._field == \"TemperatureTwo\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "C"
         }
       ],
@@ -3014,8 +3671,8 @@
     ]
   },
   "time": {
-    "from": "2023-07-31T03:35:59.777Z",
-    "to": "2023-07-31T03:42:56.830Z"
+    "from": "2023-08-06T00:33:42.258Z",
+    "to": "2023-08-06T00:45:26.999Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -3034,6 +3691,6 @@
   "timezone": "browser",
   "title": "InfluxDB Deye Mod",
   "uid": "c9849444-493c-4dd2-be13-c53375e56d04",
-  "version": 12,
+  "version": 26,
   "weekStart": "monday"
 }

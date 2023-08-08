@@ -110,6 +110,47 @@ public class InfluxDbBackgroundService : BackgroundService
             }
         }
 
+        if (_application.Application["rs485"] is List<BatteryCellMeasurement> bcm) 
+        {
+            var batteryCellMeasurements = bcm.Select((battery, index) => new BatteryCellMeasurement()
+                {
+                    Cell01 = battery.Cell01,
+                    Cell02 = battery.Cell02,
+                    Cell03 = battery.Cell03,
+                    Cell04 = battery.Cell04,
+                    Cell05 = battery.Cell05,
+                    Cell06 = battery.Cell06,
+                    Cell07 = battery.Cell07,
+                    Cell08 = battery.Cell08,
+                    Cell09 = battery.Cell09,
+                    Cell10 = battery.Cell10,
+                    Cell11 = battery.Cell11,
+                    Cell12 = battery.Cell12,
+                    Cell13 = battery.Cell13,
+                    Cell14 = battery.Cell14,
+                    Cell15 = battery.Cell15,
+                    Cell16 = battery.Cell16,
+                    MinPos = battery.MinPos,
+                    Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                    SlaveNumber = index
+                })
+                .ToList();
+            if (batteryCellMeasurements.Any(br =>
+                    br.Cell01 == 0 ||
+                    br.Cell05 == 0 ||
+                    br.Cell09 == 0 ||
+                    br.Cell13 == 0
+                )) return Task.CompletedTask;
+            
+            // Add influx measurement
+            using var writeApi = client.GetWriteApi();
+            foreach (var batteryCellMeasurment in batteryCellMeasurements)
+            {
+                writeApi.WriteMeasurement(bucket, org,
+                    WritePrecision.Ns, batteryCellMeasurment);
+            }
+        }
+
         return Task.CompletedTask;
     }
 }
