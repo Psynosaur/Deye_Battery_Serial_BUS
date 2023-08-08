@@ -24,20 +24,21 @@ public class InfluxDbBackgroundService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var bucket = _configuration["InfluxDb:Bucket"];
+        var cellBucket = _configuration["InfluxDb:CellVoltageBucket"];
         var org = _configuration["InfluxDb:Org"];
         var url = _configuration["InfluxDb:Url"];
-        if (bucket is null || org is null || url is null) throw new InvalidOperationException();
+        if (bucket is null || cellBucket is null || org is null || url is null) throw new InvalidOperationException();
         var client =
             InfluxDBClientFactory.Create(url, _configuration["InfluxDb:Token"]?.ToCharArray());
         while (!stoppingToken.IsCancellationRequested)
         {
-            await PerformFunction(bucket, client, org, stoppingToken);
+            await PerformFunction(bucket, cellBucket, client, org, stoppingToken);
 
             await Task.Delay(2000, stoppingToken);
         }
     }
 
-    private Task PerformFunction(string bucket, InfluxDBClient client, string org, CancellationToken stoppingToken)
+    private Task PerformFunction(string bucket, string cellBucket, InfluxDBClient client, string org, CancellationToken stoppingToken)
     {
         if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
@@ -146,7 +147,7 @@ public class InfluxDbBackgroundService : BackgroundService
             using var writeApi = client.GetWriteApi();
             foreach (var batteryCellMeasurment in batteryCellMeasurements)
             {
-                writeApi.WriteMeasurement(bucket, org,
+                writeApi.WriteMeasurement(cellBucket, org,
                     WritePrecision.Ns, batteryCellMeasurment);
             }
         }
