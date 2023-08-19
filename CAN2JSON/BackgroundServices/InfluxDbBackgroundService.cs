@@ -27,14 +27,15 @@ public class InfluxDbBackgroundService : BackgroundService
         var cellBucket = _configuration["InfluxDb:CellVoltageBucket"];
         var org = _configuration["InfluxDb:Org"];
         var url = _configuration["InfluxDb:Url"];
-        if (bucket is null || cellBucket is null || org is null || url is null) throw new InvalidOperationException();
+        var interval = int.Parse(_configuration["BatterySerial:Interval"] ?? "2000");
+        if (bucket is null || org is null || url is null || cellBucket is null) throw new ArgumentNullException();
         var client =
             InfluxDBClientFactory.Create(url, _configuration["InfluxDb:Token"]?.ToCharArray());
         while (!stoppingToken.IsCancellationRequested)
         {
             await PerformFunction(bucket, cellBucket, client, org, stoppingToken);
 
-            await Task.Delay(2000, stoppingToken);
+            await Task.Delay(interval, stoppingToken);
         }
     }
 
@@ -42,31 +43,32 @@ public class InfluxDbBackgroundService : BackgroundService
     {
         if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
+            var tbms = bms;
             var bmsInflux = new BmsMeasurement()
             {
                 Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                ChargeCurrentLimit = bms.ChargeCurrentLimit,
-                ChargeCurrentLimitMax = bms.ChargeCurrentLimitMax,
-                Voltage = bms.Voltage,
-                Amps = bms.Amps,
-                Watts = bms.Watts,
-                Temperature = bms.Temperature,
-                StateOfCharge = bms.StateOfCharge,
-                StateOfHealth = bms.StateOfHealth,
-                CellVoltageHigh = bms.CellVoltageHigh,
-                CellVoltageLow = bms.CellVoltageLow,
-                CellVoltageDelta = bms.CellVoltageDelta,
-                BmsTemperatureHigh = bms.BmsTemperatureHigh,
-                BmsTemperatureLow = bms.BmsTemperatureLow,
-                BatteryCapacity = bms.BatteryCapacity,
-                ChargeVoltage = bms.ChargeVoltage,
-                CurrentLimit = bms.CurrentLimit,
-                DischargeLimit = bms.DischargeLimit,
-                BatteryCutoffVoltage = bms.BatteryCutoffVoltage,
-                FullChargedRestingVoltage = bms.FullChargedRestingVoltage
+                ChargeCurrentLimit = tbms.ChargeCurrentLimit,
+                ChargeCurrentLimitMax = tbms.ChargeCurrentLimitMax,
+                Voltage = tbms.Voltage,
+                Amps = tbms.Amps,
+                Watts = tbms.Watts,
+                Temperature = tbms.Temperature,
+                StateOfCharge = tbms.StateOfCharge,
+                StateOfHealth = tbms.StateOfHealth,
+                CellVoltageHigh = tbms.CellVoltageHigh,
+                CellVoltageLow = tbms.CellVoltageLow,
+                CellVoltageDelta = tbms.CellVoltageDelta,
+                BmsTemperatureHigh = tbms.BmsTemperatureHigh,
+                BmsTemperatureLow = tbms.BmsTemperatureLow,
+                BatteryCapacity = tbms.BatteryCapacity,
+                ChargeVoltage = tbms.ChargeVoltage,
+                CurrentLimit = tbms.CurrentLimit,
+                DischargeLimit = tbms.DischargeLimit,
+                BatteryCutoffVoltage = tbms.BatteryCutoffVoltage,
+                FullChargedRestingVoltage = tbms.FullChargedRestingVoltage
             };
             var battReadingsInflux =
-                bms.Batteries.Select((battery, index) => new BatteryMeasurement()
+                tbms.Batteries.Select((battery, index) => new BatteryMeasurement()
                     {
                         BatteryVoltage = battery.BatteryVoltage,
                         BatteryCurrent = battery.BatteryCurrent,
@@ -95,7 +97,7 @@ public class InfluxDbBackgroundService : BackgroundService
                     br.TemperatureMos == 0
                 )) return Task.CompletedTask;
 
-            if (bms.Voltage == 0) return Task.CompletedTask;
+            if (tbms.Voltage == 0) return Task.CompletedTask;
             if (battReadingsInflux.Count != 2) return Task.CompletedTask;
 
             // Influx DB
@@ -111,9 +113,10 @@ public class InfluxDbBackgroundService : BackgroundService
             }
         }
 
-        if (_application.Application["rs485"] is List<BatteryCellMeasurement> bcm) 
+        if (_application.Application["rs485"] is List<BatteryCellMeasurement> bcm)
         {
-            var batteryCellMeasurements = bcm.Select((battery, index) => new BatteryCellMeasurement()
+            var bcms = bcm;
+            var batteryCellMeasurements = bcms.Select((battery, index) => new BatteryCellMeasurement()
                 {
                     Cell01 = battery.Cell01,
                     Cell02 = battery.Cell02,

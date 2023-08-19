@@ -38,7 +38,8 @@ public class SqliteDbBackgroundService : BackgroundService
         {
             if (_application.Application["bms"] is BatteryManagementSystem bms)
             {
-                var batteryReads = bms.Batteries.Select((battery, index) => new BatteryReading
+                var tbms = bms;
+                var batteryReads = tbms.Batteries.Select((battery, index) => new BatteryReading
                     {
                         BatteryVoltage = battery.BatteryVoltage,
                         BatteryCurrent = battery.BatteryCurrent,
@@ -66,31 +67,31 @@ public class SqliteDbBackgroundService : BackgroundService
                         br.TemperatureMos == 0
                     )) return;
 
-                if (bms.Voltage == 0) return;
+                if (tbms.Voltage == 0) return;
                 if (batteryReads.Count != 2) return;
 
                 var bmsReads = new BmsReading()
                 {
                     Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                    ChargeCurrentLimit = bms.ChargeCurrentLimit,
-                    ChargeCurrentLimitMax = bms.ChargeCurrentLimitMax,
-                    Voltage = bms.Voltage,
-                    Amps = bms.Amps,
-                    Watts = bms.Watts,
-                    Temperature = bms.Temperature,
-                    StateOfCharge = bms.StateOfCharge,
-                    StateOfHealth = bms.StateOfHealth,
-                    CellVoltageHigh = bms.CellVoltageHigh,
-                    CellVoltageLow = bms.CellVoltageLow,
-                    CellVoltageDelta = bms.CellVoltageDelta,
-                    BmsTemperatureHigh = bms.BmsTemperatureHigh,
-                    BmsTemperatureLow = bms.BmsTemperatureLow,
-                    BatteryCapacity = bms.BatteryCapacity,
-                    ChargeVoltage = bms.ChargeVoltage,
-                    CurrentLimit = bms.CurrentLimit,
-                    DischargeLimit = bms.DischargeLimit,
-                    BatteryCutoffVoltage = bms.BatteryCutoffVoltage,
-                    FullChargedRestingVoltage = bms.FullChargedRestingVoltage,
+                    ChargeCurrentLimit = tbms.ChargeCurrentLimit,
+                    ChargeCurrentLimitMax = tbms.ChargeCurrentLimitMax,
+                    Voltage = tbms.Voltage,
+                    Amps = tbms.Amps,
+                    Watts = tbms.Watts,
+                    Temperature = tbms.Temperature,
+                    StateOfCharge = tbms.StateOfCharge,
+                    StateOfHealth = tbms.StateOfHealth,
+                    CellVoltageHigh = tbms.CellVoltageHigh,
+                    CellVoltageLow = tbms.CellVoltageLow,
+                    CellVoltageDelta = tbms.CellVoltageDelta,
+                    BmsTemperatureHigh = tbms.BmsTemperatureHigh,
+                    BmsTemperatureLow = tbms.BmsTemperatureLow,
+                    BatteryCapacity = tbms.BatteryCapacity,
+                    ChargeVoltage = tbms.ChargeVoltage,
+                    CurrentLimit = tbms.CurrentLimit,
+                    DischargeLimit = tbms.DischargeLimit,
+                    BatteryCutoffVoltage = tbms.BatteryCutoffVoltage,
+                    FullChargedRestingVoltage = tbms.FullChargedRestingVoltage,
                     BatteryReadings = batteryReads
                 };
 
@@ -105,7 +106,8 @@ public class SqliteDbBackgroundService : BackgroundService
 
             if (_application.Application["rs485"] is List<BatteryCellMeasurement> cellReadings)
             {
-                var batteryReads = cellReadings.Select((battery, index) => new BatteryCellReading
+                var creads = cellReadings;
+                var batteryReads = creads.Select((battery, index) => new BatteryCellReading
                     {
                         Cell01 = battery.Cell01,
                         Cell02 = battery.Cell02,
