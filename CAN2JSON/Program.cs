@@ -15,13 +15,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+var sqlite = builder.Configuration.GetValue<string>("UseSqLite");
+if (sqlite is "True")
+{
+    builder.Services.AddDbContext<Can2JsonContext>
+        (options => options.UseSqlite("Name=BMSStats"));
+    builder.Services.AddHostedService<SqliteDbBackgroundService>();
+    /* These are for when we'd like to do more CRUD related actions with our battery readings...
+     * builder.Services.AddScoped<IBmsLogic, BmsLogic>();
+     * builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
+     */
+}
 
-builder.Services.AddDbContext<Can2JsonContext>
-    (options => options.UseSqlite("Name=BMSStats"));
 
 // Background workers 
 builder.Services.AddHostedService<SerialDataBackgroundService>();
-builder.Services.AddHostedService<SqliteDbBackgroundService>();
 builder.Services.AddHostedService<InfluxDbBackgroundService>();
 
 // Optional RS485
@@ -29,10 +37,7 @@ var batteryRs485 = builder.Configuration.GetValue<string>("BatterySerial:RS485")
 if(batteryRs485 is "True") builder.Services.AddHostedService<Rs485BackgroundService>();
 builder.Services.AddSwaggerGen();
 
-/* These are for when we'd like to do more CRUD related actions with our battery readings...
- * builder.Services.AddScoped<IBmsLogic, BmsLogic>();
- * builder.Services.AddScoped<IBatteryLogic, BatteryLogic>();
- */
+
 
 // This is our concurrent dictionary for accessing our latest serial readings from our workers
 builder.Services.AddSingleton<ApplicationInstance>();
