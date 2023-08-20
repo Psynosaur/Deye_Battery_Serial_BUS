@@ -54,7 +54,7 @@ public class SerialDataBackgroundService : BackgroundService
             Console.WriteLine($"File System: {device.GetFileSystemName()}\nFriendly: {device.GetFriendlyName()}\n");
         }
 
-        if (!IsLinux() && devicePath.Equals("/dev/ttyUSB0")) throw new InvalidOperationException(message:"No compatible serial devices found");
+        // if (!IsLinux()) if (devicePath.Equals("/dev/ttyUSB0")) throw new InvalidOperationException(message:"No compatible serial devices found");
         return devicePath;
     }
 
