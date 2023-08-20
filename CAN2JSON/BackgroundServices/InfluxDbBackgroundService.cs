@@ -46,7 +46,7 @@ public class InfluxDbBackgroundService : BackgroundService
             var tbms = bms;
             var bmsInflux = new BmsMeasurement()
             {
-                Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds,
+                Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                 ChargeCurrentLimit = tbms.ChargeCurrentLimit,
                 ChargeCurrentLimitMax = tbms.ChargeCurrentLimitMax,
                 Voltage = tbms.Voltage,
@@ -84,7 +84,7 @@ public class InfluxDbBackgroundService : BackgroundService
                         CurrentLimitMax = battery.CurrentLimitMax,
                         ChargedTotal = battery.ChargedTotal,
                         DischargedTotal = battery.DischargedTotal,
-                        Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds,
+                        Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         SlaveNumber = index
                     })
                     .ToList();
@@ -135,7 +135,7 @@ public class InfluxDbBackgroundService : BackgroundService
                     Cell15 = battery.Cell15,
                     Cell16 = battery.Cell16,
                     MinPos = battery.MinPos,
-                    Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds,
+                    Date = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                     SlaveNumber = index
                 })
                 .ToList();
