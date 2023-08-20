@@ -31,15 +31,17 @@ public class InfluxDbBackgroundService : BackgroundService
         if (bucket is null || org is null || url is null || cellBucket is null) throw new ArgumentNullException();
         var client =
             InfluxDBClientFactory.Create(url, _configuration["InfluxDb:Token"]?.ToCharArray());
+        using var writeApi = client.GetWriteApi();
         while (!stoppingToken.IsCancellationRequested)
         {
-            await PerformFunction(bucket, cellBucket, client, org, stoppingToken);
+            await PerformFunction(bucket, cellBucket, org, writeApi, stoppingToken);
 
             await Task.Delay(interval, stoppingToken);
         }
     }
 
-    private Task PerformFunction(string bucket, string cellBucket, InfluxDBClient client, string org, CancellationToken stoppingToken)
+    private Task PerformFunction(string bucket, string cellBucket, string org, WriteApi writeApi,
+        CancellationToken stoppingToken)
     {
         if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
@@ -101,7 +103,7 @@ public class InfluxDbBackgroundService : BackgroundService
             if (battReadingsInflux.Count != 2) return Task.CompletedTask;
 
             // Influx DB
-            using var writeApi = client.GetWriteApi();
+            // using var writeApi = client.GetWriteApi();
             writeApi.WriteMeasurement(bucket, _configuration["InfluxDb:Org"],
                 WritePrecision.Ns, bmsInflux);
             // Add battery measurements 
@@ -147,7 +149,7 @@ public class InfluxDbBackgroundService : BackgroundService
                 )) return Task.CompletedTask;
             
             // Add influx measurement
-            using var writeApi = client.GetWriteApi();
+            // using var writeApi = client.GetWriteApi();
             foreach (var batteryCellMeasurment in batteryCellMeasurements)
             {
                 writeApi.WriteMeasurement(cellBucket, org,
