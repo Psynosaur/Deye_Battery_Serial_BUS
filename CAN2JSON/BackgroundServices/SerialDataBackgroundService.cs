@@ -77,7 +77,7 @@ public class SerialDataBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing serial data.");
+            _logger.LogError(ex, "An error occurred while processing serial data: ${Ex}", ex);
         }
         finally
         {
