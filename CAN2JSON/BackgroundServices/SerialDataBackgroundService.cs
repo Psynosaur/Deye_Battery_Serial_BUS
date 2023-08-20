@@ -102,7 +102,7 @@ public class SerialDataBackgroundService : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while processing received data.");
+            _logger.LogError(ex, "An error occurred in SerialPort_DataReceived: ${Ex}", ex);
         }
     }
 
