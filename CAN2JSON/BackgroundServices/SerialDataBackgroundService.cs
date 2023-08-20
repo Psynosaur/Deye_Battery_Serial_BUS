@@ -16,6 +16,7 @@ public class SerialDataBackgroundService : BackgroundService
     private readonly BatteryManagementSystem _batteryManagementSystem = new(1);
     private bool _firstFrame = true;
     private bool _batteryCountSet;
+    private readonly IConfiguration _configuration;
     /// <summary>
     /// Indicates whether the current application is running on Linux.
     /// </summary>
@@ -26,10 +27,11 @@ public class SerialDataBackgroundService : BackgroundService
                 false;
         #endif
 
-    public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger, ApplicationInstance application)
+    public SerialDataBackgroundService(ILogger<SerialDataBackgroundService> logger, ApplicationInstance application, IConfiguration configuration)
     {
         _logger = logger;
         _application = application;
+        _configuration = configuration;
         _document = new JsonObject();
         _serialPort = new SerialPort(DetermineSerialDeviceName(), 2000000);
     }
@@ -38,7 +40,7 @@ public class SerialDataBackgroundService : BackgroundService
     {
         var list = DeviceList.Local;
         var allDeviceList = list.GetAllDevices().ToArray();
-        string devicePath = "/dev/ttyUSB0";
+        string devicePath = _configuration["CANDevice:Path"] ?? "/dev/ttyUSB0";
         foreach (Device? device in allDeviceList)
         {
             if (!IsLinux())
