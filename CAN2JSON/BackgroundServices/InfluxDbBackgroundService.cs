@@ -105,13 +105,13 @@ public class InfluxDbBackgroundService : BackgroundService
             // Influx DB
             // using var writeApi = client.GetWriteApi();
             writeApi.WriteMeasurement(bucket, _configuration["InfluxDb:Org"],
-                WritePrecision.S, bmsInflux);
+                WritePrecision.Ns, bmsInflux);
             // Add battery measurements 
             for (var index = 0; index < battReadingsInflux.Count; index++)
             {
                 var batteryReading = battReadingsInflux[index];
                 writeApi.WriteMeasurement(_configuration["InfluxDb:Bucket"], _configuration["InfluxDb:Org"],
-                    WritePrecision.S, batteryReading);
+                    WritePrecision.Ns, batteryReading);
             }
         }
 
@@ -153,7 +153,7 @@ public class InfluxDbBackgroundService : BackgroundService
             foreach (var batteryCellMeasurment in batteryCellMeasurements)
             {
                 writeApi.WriteMeasurement(cellBucket, org,
-                    WritePrecision.S, batteryCellMeasurment);
+                    WritePrecision.Ns, batteryCellMeasurment);
             }
         }
 
