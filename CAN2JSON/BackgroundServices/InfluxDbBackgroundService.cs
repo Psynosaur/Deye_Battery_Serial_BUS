@@ -41,6 +41,7 @@ public class InfluxDbBackgroundService : BackgroundService
 
     private Task PerformFunction(string bucket, string cellBucket, InfluxDBClient client, string org, CancellationToken stoppingToken)
     {
+        _application.Application["rs485"] = new List<BatteryCellMeasurement>();
         if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
             var tbms = bms;
@@ -139,6 +140,7 @@ public class InfluxDbBackgroundService : BackgroundService
                     SlaveNumber = index
                 })
                 .ToList();
+            
             if (batteryCellMeasurements.Any(br =>
                     br.Cell01 == 0 ||
                     br.Cell05 == 0 ||
