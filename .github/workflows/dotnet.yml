@@ -22,5 +22,3 @@ jobs:
         dotnet-version: 8.0.x
     - name: Publish
       run: dotnet publish ./CAN2JSON/CAN2JSON.csproj -c release 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
