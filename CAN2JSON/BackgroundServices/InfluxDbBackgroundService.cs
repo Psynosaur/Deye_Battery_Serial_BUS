@@ -23,6 +23,7 @@ public class InfluxDbBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+		_application.Application["rs485"] = new List<BatteryCellMeasurement>();
         var bucket = _configuration["InfluxDb:Bucket"];
         var cellBucket = _configuration["InfluxDb:CellVoltageBucket"];
         var org = _configuration["InfluxDb:Org"];
@@ -41,7 +42,6 @@ public class InfluxDbBackgroundService : BackgroundService
 
     private Task PerformFunction(string bucket, string cellBucket, InfluxDBClient client, string org, CancellationToken stoppingToken)
     {
-        _application.Application["rs485"] = new List<BatteryCellMeasurement>();
         if (_application.Application["bms"] is BatteryManagementSystem bms)
         {
             var tbms = bms;
@@ -105,7 +105,7 @@ public class InfluxDbBackgroundService : BackgroundService
             using var writeApi = client.GetWriteApi();
             writeApi.WriteMeasurement(bucket, _configuration["InfluxDb:Org"],
                 WritePrecision.Ns, bmsInflux);
-            // Add battery measurements 
+            // Add battery measurements
             for (var index = 0; index < battReadingsInflux.Count; index++)
             {
                 var batteryReading = battReadingsInflux[index];
@@ -140,14 +140,14 @@ public class InfluxDbBackgroundService : BackgroundService
                     SlaveNumber = index
                 })
                 .ToList();
-            
+
             if (batteryCellMeasurements.Any(br =>
                     br.Cell01 == 0 ||
                     br.Cell05 == 0 ||
                     br.Cell09 == 0 ||
                     br.Cell13 == 0
                 )) return Task.CompletedTask;
-            
+
             // Add influx measurement
             using var writeApi = client.GetWriteApi();
             foreach (var batteryCellMeasurment in batteryCellMeasurements)

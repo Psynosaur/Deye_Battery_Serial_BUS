@@ -50,7 +50,8 @@ public class Rs485BackgroundService : BackgroundService
         
         while (!stoppingToken.IsCancellationRequested)
         {
-            await SerialWriteReadMeasurement(stoppingToken, batteryReadings);
+            await SerialWriteReadMeasurement_1(stoppingToken, batteryReadings);
+            await SerialWriteReadMeasurement_2(stoppingToken, batteryReadings);
 
             await Task.Delay(interval, stoppingToken);
         }
@@ -59,20 +60,34 @@ public class Rs485BackgroundService : BackgroundService
         _batteryTwoSerial.Close();
     }
     
-    private async Task SerialWriteReadMeasurement(CancellationToken cancellationToken,
+    private async Task SerialWriteReadMeasurement_1(CancellationToken cancellationToken,
         List<BatteryCellMeasurement> batteryReadings)
     {
         // Send data to the serial device
         _batteryOneSerial.Write(_sendData, 0, _sendData.Length);
-        _batteryTwoSerial.Write(_sendData, 0, _sendData.Length);
 
         // Wait for a short time to ensure the data is sent
-        await Task.Delay(150, cancellationToken);
+        // await Task.Delay(150, cancellationToken);
 
         var received = await ReadSerialResponse(_batteryOneSerial);
         batteryReadings[0] = ProcessResponse(received, 0);
+        
+        // Controller output
+        _application.Application["jsonSerial"] = ToJsonSerial(batteryReadings);
+        // BatteryCellReading list, for db workers to map and store 
+        _application.Application["rs485"] = batteryReadings;
+    }
+    
+    private async Task SerialWriteReadMeasurement_2(CancellationToken cancellationToken,
+        List<BatteryCellMeasurement> batteryReadings)
+    {
+        // Send data to the serial device
+        _batteryTwoSerial.Write(_sendData, 0, _sendData.Length);
 
-        received = await ReadSerialResponse(_batteryTwoSerial);
+        // Wait for a short time to ensure the data is sent
+        // await Task.Delay(150, cancellationToken);
+
+        var received = await ReadSerialResponse(_batteryTwoSerial);
         batteryReadings[1] = ProcessResponse(received, 1);
 
         // Controller output
